@@ -16,6 +16,7 @@ namespace MabService.Domain.Data
         /// <returns>Mock API definition</returns>
         public MockApiModel AddMockApi(MockApiModel mockApi)
         {
+            return null;
         }
 
         /// <summary>
@@ -25,6 +26,7 @@ namespace MabService.Domain.Data
         /// <returns>true if exists, false otherwise</returns>
         public bool CollectionExists(string collectionId)
         {
+            return false;
         }
 
         /// <summary>
@@ -34,6 +36,7 @@ namespace MabService.Domain.Data
         /// <returns>collection of mock APIs</returns>
         public MockApiCollection GetCollection(string id)
         {
+            return null;
         }
     }
 }
