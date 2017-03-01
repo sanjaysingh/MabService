@@ -63,7 +63,7 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /Y "$(TargetPath)" "$(SolutionDir)MabService\AddCollection\bin"</PostBuildEvent>
+    <PostBuildEvent>xcopy /Y /C "$(TargetPath)" "$(SolutionDir)MabService\AddCollection\bin"</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\Microsoft.Azure.DocumentDB.1.12.0\build\Microsoft.Azure.DocumentDB.targets" Condition="Exists('..\packages\Microsoft.Azure.DocumentDB.1.12.0\build\Microsoft.Azure.DocumentDB.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
