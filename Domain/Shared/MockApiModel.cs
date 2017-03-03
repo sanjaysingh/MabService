@@ -11,7 +11,7 @@
         /// <value>
         /// The identifier.
         /// </value>
-        public string Id { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets the route template.
@@ -20,6 +20,14 @@
         /// The route template.
         /// </value>
         public string RouteTemplate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the body.
+        /// </summary>
+        /// <value>
+        /// The body.
+        /// </value>
+        public string Body { get; set; }
 
         /// <summary>
         /// Gets or sets the verb.

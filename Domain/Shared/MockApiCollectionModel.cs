@@ -5,7 +5,7 @@ namespace MabService.Domain.Shared
     /// <summary>
     /// Mock API collection
     /// </summary>
-    public class MockApiCollection
+    public class MockApiCollectionModel
     {
         /// <summary>
         /// Gets or sets the identifier.
@@ -13,7 +13,7 @@ namespace MabService.Domain.Shared
         /// <value>
         /// The identifier.
         /// </value>
-        public string Id { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets the mock apis.
