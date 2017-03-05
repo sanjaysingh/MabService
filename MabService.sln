@@ -7,8 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{38BA231A-1
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MabService", "MabService\MabService.csproj", "{002C2F6E-BF76-4038-9BA6-85009DE24927}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MabServiceTest", "MabServiceTest\MabServiceTest.csproj", "{6615A29B-3592-4734-977B-B6A975BA5945}"
-EndProject
 Project("{33AD0EE8-D99B-4E14-8CD9-3F56ABEF97A2}") = "MabServiceAzureFunctions", "MabServiceAzureFunctions\MabServiceAzureFunctions.funproj", "{289BE27D-8D69-4D3C-AC84-CCD631622B41}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MabService.Data", "MabService.Data\MabService.Data.csproj", "{97B23E77-D9B1-4FC4-B78E-DFE966F75626}"
@@ -16,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MabService.Shared", "MabService.Shared\MabService.Shared.csproj", "{F5CE3031-27D2-4CFF-86FB-A03088766501}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MabService.FunctionsHelper", "MabService.FunctionsHelper\MabService.FunctionsHelper.csproj", "{4B2550C6-708F-46F4-A855-5D3634D11CD9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MabServiceTest", "Test\MabServiceTest\MabServiceTest.csproj", "{6615A29B-3592-4734-977B-B6A975BA5945}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,22 +45,6 @@ Global
 		{002C2F6E-BF76-4038-9BA6-85009DE24927}.Release|x64.Build.0 = Release|Any CPU
 		{002C2F6E-BF76-4038-9BA6-85009DE24927}.Release|x86.ActiveCfg = Release|Any CPU
 		{002C2F6E-BF76-4038-9BA6-85009DE24927}.Release|x86.Build.0 = Release|Any CPU
-		{6615A29B-3592-4734-977B-B6A975BA5945}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6615A29B-3592-4734-977B-B6A975BA5945}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6615A29B-3592-4734-977B-B6A975BA5945}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{6615A29B-3592-4734-977B-B6A975BA5945}.Debug|ARM.Build.0 = Debug|Any CPU
-		{6615A29B-3592-4734-977B-B6A975BA5945}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{6615A29B-3592-4734-977B-B6A975BA5945}.Debug|x64.Build.0 = Debug|Any CPU
-		{6615A29B-3592-4734-977B-B6A975BA5945}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{6615A29B-3592-4734-977B-B6A975BA5945}.Debug|x86.Build.0 = Debug|Any CPU
-		{6615A29B-3592-4734-977B-B6A975BA5945}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6615A29B-3592-4734-977B-B6A975BA5945}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6615A29B-3592-4734-977B-B6A975BA5945}.Release|ARM.ActiveCfg = Release|Any CPU
-		{6615A29B-3592-4734-977B-B6A975BA5945}.Release|ARM.Build.0 = Release|Any CPU
-		{6615A29B-3592-4734-977B-B6A975BA5945}.Release|x64.ActiveCfg = Release|Any CPU
-		{6615A29B-3592-4734-977B-B6A975BA5945}.Release|x64.Build.0 = Release|Any CPU
-		{6615A29B-3592-4734-977B-B6A975BA5945}.Release|x86.ActiveCfg = Release|Any CPU
-		{6615A29B-3592-4734-977B-B6A975BA5945}.Release|x86.Build.0 = Release|Any CPU
 		{289BE27D-8D69-4D3C-AC84-CCD631622B41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{289BE27D-8D69-4D3C-AC84-CCD631622B41}.Debug|ARM.ActiveCfg = Debug|Any CPU
 		{289BE27D-8D69-4D3C-AC84-CCD631622B41}.Debug|ARM.Build.0 = Debug|Any CPU
@@ -119,6 +103,22 @@ Global
 		{4B2550C6-708F-46F4-A855-5D3634D11CD9}.Release|x64.Build.0 = Release|Any CPU
 		{4B2550C6-708F-46F4-A855-5D3634D11CD9}.Release|x86.ActiveCfg = Release|Any CPU
 		{4B2550C6-708F-46F4-A855-5D3634D11CD9}.Release|x86.Build.0 = Release|Any CPU
+		{6615A29B-3592-4734-977B-B6A975BA5945}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6615A29B-3592-4734-977B-B6A975BA5945}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6615A29B-3592-4734-977B-B6A975BA5945}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{6615A29B-3592-4734-977B-B6A975BA5945}.Debug|ARM.Build.0 = Debug|Any CPU
+		{6615A29B-3592-4734-977B-B6A975BA5945}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6615A29B-3592-4734-977B-B6A975BA5945}.Debug|x64.Build.0 = Debug|Any CPU
+		{6615A29B-3592-4734-977B-B6A975BA5945}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6615A29B-3592-4734-977B-B6A975BA5945}.Debug|x86.Build.0 = Debug|Any CPU
+		{6615A29B-3592-4734-977B-B6A975BA5945}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6615A29B-3592-4734-977B-B6A975BA5945}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6615A29B-3592-4734-977B-B6A975BA5945}.Release|ARM.ActiveCfg = Release|Any CPU
+		{6615A29B-3592-4734-977B-B6A975BA5945}.Release|ARM.Build.0 = Release|Any CPU
+		{6615A29B-3592-4734-977B-B6A975BA5945}.Release|x64.ActiveCfg = Release|Any CPU
+		{6615A29B-3592-4734-977B-B6A975BA5945}.Release|x64.Build.0 = Release|Any CPU
+		{6615A29B-3592-4734-977B-B6A975BA5945}.Release|x86.ActiveCfg = Release|Any CPU
+		{6615A29B-3592-4734-977B-B6A975BA5945}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -85,19 +85,19 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MabService.Data\MabService.Data.csproj">
+    <ProjectReference Include="..\..\MabService.Data\MabService.Data.csproj">
       <Project>{97b23e77-d9b1-4fc4-b78e-dfe966f75626}</Project>
       <Name>MabService.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MabService.FunctionsHelper\MabService.FunctionsHelper.csproj">
+    <ProjectReference Include="..\..\MabService.FunctionsHelper\MabService.FunctionsHelper.csproj">
       <Project>{4b2550c6-708f-46f4-a855-5d3634d11cd9}</Project>
       <Name>MabService.FunctionsHelper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MabService.Shared\MabService.Shared.csproj">
+    <ProjectReference Include="..\..\MabService.Shared\MabService.Shared.csproj">
       <Project>{f5ce3031-27d2-4cff-86fb-a03088766501}</Project>
       <Name>MabService.Shared</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MabService\MabService.csproj">
+    <ProjectReference Include="..\..\MabService\MabService.csproj">
       <Project>{002c2f6e-bf76-4038-9ba6-85009de24927}</Project>
       <Name>MabService</Name>
     </ProjectReference>
