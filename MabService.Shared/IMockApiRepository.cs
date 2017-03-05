@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace MabService.Domain.Shared
+namespace MabService.Shared
 {
     /// <summary>
     /// A mock API data repository contract

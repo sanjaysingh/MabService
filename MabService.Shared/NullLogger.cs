@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MabService.Domain.Shared
+namespace MabService.Shared
 {
     /// <summary>
     /// A do nothing logger implementation.

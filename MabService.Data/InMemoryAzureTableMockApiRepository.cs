@@ -1,9 +1,9 @@
-﻿using MabService.Domain.Shared;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
+using MabService.Shared;
 
-namespace MabService.Domain.Data
+namespace MabService.Data
 {
     /// <summary>
     /// An in memory implementation azure table mock api repository

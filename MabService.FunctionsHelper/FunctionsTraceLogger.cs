@@ -1,8 +1,8 @@
-﻿using MabService.Domain.Shared;
+﻿using MabService.Shared;
 using Microsoft.Azure.WebJobs.Host;
 using System;
 
-namespace MabService
+namespace MabService.FunctionsHelper
 {
     /// <summary>
     /// Functions trace logger implementation

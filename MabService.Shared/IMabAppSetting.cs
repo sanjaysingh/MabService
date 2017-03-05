@@ -1,4 +1,4 @@
-﻿namespace MabService.Domain.Shared
+﻿namespace MabService.Shared
 {
     /// <summary>
     /// Mab app settings

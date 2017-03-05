@@ -1,20 +1,18 @@
-﻿using MabService.Domain;
-using MabService.Domain.Data;
-using MabService.Domain.Shared;
+﻿using MabService.Data;
+using MabService.Shared;
 using Microsoft.Azure.WebJobs.Host;
 
-namespace MabService
+namespace MabService.FunctionsHelper
 {
     public class ServiceFactory
     {
-        public static MockApiDefinitionService CreateMockApiDefinitionService(TraceWriter traceWriter)
+        public static CreateCollectionService CreateCollectionService(TraceWriter traceWriter)
         {
             var logger = new FunctionsTraceLogger(traceWriter);
             var settings = new MabAppSetting();
             var repo = new AzureTableMockApiRepository(settings.AzureStorageConnectionString, settings.MockApiDefinitionTableName);
-            var manager = new MockApiManager(repo, logger);
 
-            return new MockApiDefinitionService(manager, logger);
+            return new CreateCollectionService(logger, repo);
         }
     }
 }

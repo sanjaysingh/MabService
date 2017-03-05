@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DomainTest")]
+[assembly: AssemblyTitle("MabService.Data")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft Corporation")]
-[assembly: AssemblyProduct("DomainTest")]
+[assembly: AssemblyProduct("MabService.Data")]
 [assembly: AssemblyCopyright("Copyright © Microsoft Corporation 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("9077299c-aaff-4b09-a7d5-76c5c47e9fae")]
+[assembly: Guid("97b23e77-d9b1-4fc4-b78e-dfe966f75626")]
 
 // Version information for an assembly consists of the following four values:
 //

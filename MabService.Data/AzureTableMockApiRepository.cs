@@ -1,11 +1,10 @@
-﻿using System;
-using MabService.Domain.Shared;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Table;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Collections.Generic;
+using MabService.Shared;
+using Microsoft.WindowsAzure.Storage.Table;
+using Microsoft.WindowsAzure.Storage;
 
-namespace MabService.Domain.Data
+namespace MabService.Data
 {
     /// <summary>
     /// A document db implementation for mock api repository

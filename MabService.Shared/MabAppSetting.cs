@@ -1,7 +1,6 @@
-﻿using System;
-using System.Configuration;
+﻿using System.Configuration;
 
-namespace MabService.Domain.Shared
+namespace MabService.Shared
 {
     /// <summary>
     /// Mab App Settings implementation

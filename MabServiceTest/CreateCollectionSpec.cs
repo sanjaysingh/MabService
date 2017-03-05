@@ -1,18 +1,15 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net.Http;
-using System.Net.Http.Formatting;
 using Newtonsoft.Json;
-using MabService;
-using MabService.Domain.Data;
-using MabService.Domain;
-using MabService.Domain.Shared;
 using FluentAssertions;
 using System.Net;
 using System.Threading.Tasks;
 using System.Text;
 using System.Web.Http.Hosting;
 using System.Web.Http;
+using MabService.Data;
+using MabService.Shared;
+using MabService;
 
 namespace MabServiceTest
 {
@@ -28,9 +25,8 @@ namespace MabServiceTest
             requestMessage.Content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
             var repo = new InMemoryAzureTableMockApiRepository();
             var logger = new NullLogger();
-            var manager = new MockApiManager(repo, logger);
-            MockApiDefinitionService service = new MockApiDefinitionService(manager, logger);
-            var response = await service.CreateCollectionAsync(requestMessage);
+            CreateCollectionService service = new CreateCollectionService(logger, repo);
+            var response = await service.Execute(requestMessage);
 
             response.StatusCode.ShouldBeEquivalentTo(HttpStatusCode.OK);
         }

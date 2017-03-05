@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MabService.Domain.Shared
+namespace MabService.Shared
 {
     /// <summary>
     /// Mock API collection

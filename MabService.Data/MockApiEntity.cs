@@ -1,7 +1,6 @@
-﻿using MabService.Domain.Shared;
-using Microsoft.WindowsAzure.Storage.Table;
+﻿using Microsoft.WindowsAzure.Storage.Table;
 
-namespace MabService.Domain.Data
+namespace MabService.Data
 {
     /// <summary>
     /// Mock Api entity
