@@ -8,6 +8,8 @@ namespace MabService.Shared
     /// <seealso cref="MabService.Domain.Shared.IMabAppSetting" />
     public class MabAppSetting : IMabAppSetting
     {
+        private const string DefaultMockApiDefinitionTableName = "MockApiDefinition";
+
         /// <summary>
         /// Gets the azure storage connection string.
         /// </summary>
@@ -32,7 +34,7 @@ namespace MabService.Shared
         {
             get
             {
-                return ConfigurationManager.AppSettings["MockApiDefinitionTableName"];
+                return ConfigurationManager.AppSettings["MockApiDefinitionTableName"]?? DefaultMockApiDefinitionTableName;
             }
         }
     }
