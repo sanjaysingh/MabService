@@ -1,6 +1,6 @@
 ﻿{
   "frameworks": {
-    "net46":{
+    "net461": {
       "dependencies": {
         "WindowsAzure.Storage": "8.1.1"
       }
