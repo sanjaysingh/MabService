@@ -9,5 +9,5 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 {
     log.Info($"CreateCollectionService is processing a request. RequestUri={req.RequestUri}");
     var service = ServiceFactory.CreateCollectionService(log);
-    await service.Execute(req);
+    return await service.Execute(req);
 }
