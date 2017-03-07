@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using MabService.Common;
 using MabService.Shared;
 using System.Net;
+using System.Web.Http;
 
 namespace MabService
 {
@@ -30,6 +31,7 @@ namespace MabService
         /// </summary>
         /// <param name="req">The req.</param>
         /// <returns></returns>
+        [HttpPost]
         protected override async Task<HttpResponseMessage> ExecuteInternal(HttpRequestMessage req)
         {
             dynamic body = await req.Content.ReadAsAsync<object>();
