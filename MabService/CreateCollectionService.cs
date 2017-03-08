@@ -34,8 +34,10 @@ namespace MabService
         [HttpPost]
         protected override async Task<HttpResponseMessage> ExecuteInternal(HttpRequestMessage req)
         {
-            dynamic body = await req.Content.ReadAsAsync<object>();
-            string collectionName = body.collectionName;
+            var body = await req.Content.ReadAsAsync<CreateCollectionRequestResource>();
+            string collectionName = body.CollectionName;
+            Validator.ValidateCollectionName(collectionName);
+
             await this.mockApiRepo.CreateCollectionAsync(collectionName);
             return req.CreateResponse(HttpStatusCode.OK, ResourceStrings.CollectionCreated(collectionName));
         }

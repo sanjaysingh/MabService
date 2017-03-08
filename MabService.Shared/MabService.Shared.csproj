@@ -43,7 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ErrorResponseModel.cs" />
-    <Compile Include="Exceptions\DisallowedHttpMethodException.cs" />
+    <Compile Include="Exceptions\ResourceNotFoundException.cs" />
     <Compile Include="Exceptions\ExceptionBase.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="ILogger.cs" />

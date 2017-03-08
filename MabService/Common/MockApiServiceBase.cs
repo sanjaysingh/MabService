@@ -1,6 +1,12 @@
 ﻿using MabService.Shared;
 using System.Threading.Tasks;
 using System.Net.Http;
+using System.Reflection;
+using MabService.Shared.Exceptions;
+using System;
+using System.Net;
+using System.Linq;
+using System.Web.Http.Controllers;
 
 namespace MabService.Common
 {
@@ -37,7 +43,29 @@ namespace MabService.Common
         /// <returns>http response message</returns>
         public async Task<HttpResponseMessage> Execute(HttpRequestMessage req)
         {
-            return await this.ExecuteInternal(req);
+            HttpResponseMessage response;
+            try
+            {
+                this.ValidateRequest(req);
+                response = await this.ExecuteInternal(req);
+            }
+            catch(ResourceNotFoundException ex)
+            {
+                this.Logger.Error(ex.Message, ex);
+                response = req.CreateResponse(HttpStatusCode.NotFound, ex.ToErrorResponse());
+            }
+            catch(ValidationException ex)
+            {
+                this.Logger.Error(ex.Message, ex);
+                response = req.CreateResponse(HttpStatusCode.BadRequest, ex.ToErrorResponse());
+            }
+            catch(Exception ex)
+            {
+                this.Logger.Error(ex.Message, ex);
+                response = req.CreateResponse(HttpStatusCode.InternalServerError, new ErrorResponseModel(ResourceStrings.InternalServerErrorId, ResourceStrings.InternalServerErrorMessage));
+            }
+
+            return response;
         }
 
         /// <summary>
@@ -46,5 +74,24 @@ namespace MabService.Common
         /// <param name="req">The req.</param>
         /// <returns></returns>
         protected abstract Task<HttpResponseMessage> ExecuteInternal(HttpRequestMessage req);
+
+        private void ValidateRequest(HttpRequestMessage req)
+        {
+            var handlerMethod = this.GetType().GetMethod("ExecuteInternal", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+
+            var isAllowedHandler = handlerMethod.GetCustomAttributes(true).Any(attr => {
+                                        var actionMethodProvider = attr as IActionHttpMethodProvider;
+                                        if(actionMethodProvider != null)
+                                        {
+                                            return actionMethodProvider.HttpMethods.Contains(req.Method);
+                                        }
+                                        return false;
+                                    });
+
+            if (!isAllowedHandler)
+            {
+                throw new ResourceNotFoundException();
+            }
+        }
     }
 }

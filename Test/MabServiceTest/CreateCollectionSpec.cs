@@ -19,16 +19,54 @@ namespace MabServiceTest
         [TestMethod]
         public async Task CreateCollectionWithValidCollectionNameShouldReturnOk()
         {
-            HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Post, "http://localhost/collection");
-            requestMessage.Properties.Add(HttpPropertyKeys.HttpConfigurationKey, new HttpConfiguration());
-            var requestBody = new { collectionName = "MyCollection" };
-            requestMessage.Content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
             var repo = new InMemoryAzureTableMockApiRepository();
             var logger = new NullLogger();
             CreateCollectionService service = new CreateCollectionService(logger, repo);
-            var response = await service.Execute(requestMessage);
+            var response = await service.Execute(CreateRequestMessage(new { collectionName = "MyCollection" }));
 
-            response.StatusCode.ShouldBeEquivalentTo(HttpStatusCode.OK);
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [TestMethod]
+        public async Task CreateCollectionWithInvalidHttpMethodShouldReturnNotFound()
+        {
+            var repo = new InMemoryAzureTableMockApiRepository();
+            var logger = new NullLogger();
+            CreateCollectionService service = new CreateCollectionService(logger, repo);
+            var response = await service.Execute(CreateRequestMessage(new { collectionName = "MyCollection" }, HttpMethod.Put));
+
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [TestMethod]
+        public async Task CreateCollectionWithSpecialCharsInNameShouldReturnBadRequest()
+        {
+            var repo = new InMemoryAzureTableMockApiRepository();
+            var logger = new NullLogger();
+            CreateCollectionService service = new CreateCollectionService(logger, repo);
+            var response = await service.Execute(CreateRequestMessage(new { collectionName = "My#Collection" }, HttpMethod.Post));
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [TestMethod]
+        public async Task CreateCollectionWith25CharsInNameShouldReturnBadRequest()
+        {
+            var repo = new InMemoryAzureTableMockApiRepository();
+            var logger = new NullLogger();
+            CreateCollectionService service = new CreateCollectionService(logger, repo);
+            var response = await service.Execute(CreateRequestMessage(new { collectionName = "".PadLeft(25,'A') }, HttpMethod.Post));
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        private HttpRequestMessage CreateRequestMessage(object requestBody, HttpMethod httpMethod = null)
+        {
+            HttpRequestMessage requestMessage = new HttpRequestMessage(httpMethod ?? HttpMethod.Post, "http://localhost/collection");
+            requestMessage.Properties.Add(HttpPropertyKeys.HttpConfigurationKey, new HttpConfiguration());
+            requestMessage.Content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
+
+            return requestMessage;
         }
     }
 }

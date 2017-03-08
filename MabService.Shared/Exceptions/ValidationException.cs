@@ -14,7 +14,7 @@ namespace MabService.Shared.Exceptions
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="error">The error.</param>
-        public ValidationException(string message, string error) : base(message, error)
+        public ValidationException(string error) : base(error)
         {
         }
 
@@ -23,7 +23,7 @@ namespace MabService.Shared.Exceptions
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="errors">The errors.</param>
-        public ValidationException(string message, IEnumerable<string> errors): base(message, errors)
+        public ValidationException(IEnumerable<string> errors): base("ValidationError", errors)
         {
         }
     }
