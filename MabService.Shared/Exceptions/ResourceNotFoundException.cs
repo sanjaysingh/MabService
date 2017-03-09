@@ -9,7 +9,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ResourceNotFoundException" /> class.
         /// </summary>
-        public ResourceNotFoundException() : base(ResourceStrings.ResourceNotFound)
+        public ResourceNotFoundException() : base(Constants.ResourceNotFoundMessage)
         {
         }
     }

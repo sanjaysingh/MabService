@@ -42,7 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ErrorResponseModel.cs" />
+    <Compile Include="ApiFunctionLanguage.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="Exceptions\ResourceNotFoundException.cs" />
     <Compile Include="Exceptions\ExceptionBase.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
@@ -51,10 +52,11 @@
     <Compile Include="IMockApiRepository.cs" />
     <Compile Include="MabAppSetting.cs" />
     <Compile Include="MockApiCollectionModel.cs" />
+    <Compile Include="MockApiHttpVerb.cs" />
     <Compile Include="MockApiModel.cs" />
     <Compile Include="NullLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResourceStrings.cs" />
+    <Compile Include="ServiceLocator.cs" />
     <Compile Include="StringExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

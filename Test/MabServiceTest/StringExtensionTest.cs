@@ -20,44 +20,44 @@ namespace MabServiceTest
         }
 
         [TestMethod]
-        public void IsAlphanumeric_ForAlphanumeric_ShouldBeTrue()
+        public void IsNotAlphanumeric_ForAlphanumeric_ShouldBeFalse()
         {
-            "ABC123".IsAlphanumeric().Should().BeTrue();
+            "ABC123".IsNotAlphanumeric().Should().BeFalse();
         }
         [TestMethod]
-        public void IsAlphanumeric_ForAlphabetsOnly_ShouldBeTrue()
+        public void IsNotAlphanumeric_ForAlphabetsOnly_ShouldBeFalse()
         {
-            "ABC".IsAlphanumeric().Should().BeTrue();
+            "ABC".IsNotAlphanumeric().Should().BeFalse();
         }
         [TestMethod]
-        public void IsAlphanumeric_ForSpecialCharacters_ShouldBeFalse()
+        public void IsNotAlphanumeric_ForSpecialCharacters_ShouldBeTrue()
         {
-            "ABC$".IsAlphanumeric().Should().BeFalse();
+            "ABC$".IsNotAlphanumeric().Should().BeTrue();
         }
         [TestMethod]
-        public void IsInLength_Between2And5_ShouldBeTrueFor4()
+        public void IsNotInLength_Between2And5_ShouldBeFalseFor4()
         {
-            "ABC$".IsInLength(2, 5).Should().BeTrue();
+            "ABC$".IsNotInLength(2, 5).Should().BeFalse();
         }
         [TestMethod]
-        public void IsInLength_Between2And5_ShouldBeTrueFor2()
+        public void IsNotInLength_Between2And5_ShouldBeFalseFor2()
         {
-            "AB".IsInLength(2, 5).Should().BeTrue();
+            "AB".IsNotInLength(2, 5).Should().BeFalse();
         }
         [TestMethod]
-        public void IsInLength_Between2And5_ShouldBeTrueFor5()
+        public void IsNotInLength_Between2And5_ShouldBeFalseFor5()
         {
-            "ABCDE".IsInLength(2, 5).Should().BeTrue();
+            "ABCDE".IsNotInLength(2, 5).Should().BeFalse();
         }
         [TestMethod]
-        public void IsInLength_Between2And5_ShouldBeFalseFor1()
+        public void IsNotInLength_Between2And5_ShouldBeTrueFor1()
         {
-            "A".IsInLength(2, 5).Should().BeFalse();
+            "A".IsNotInLength(2, 5).Should().BeTrue();
         }
         [TestMethod]
-        public void IsInLength_Between2And5_ShouldBeFalseFor6()
+        public void IsNotInLength_Between2And5_ShouldBeTrueFor6()
         {
-            "ABCDEF".IsInLength(2, 5).Should().BeFalse();
+            "ABCDEF".IsNotInLength(2, 5).Should().BeTrue();
         }
     }
 }

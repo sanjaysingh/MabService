@@ -49,5 +49,13 @@ namespace MabService.Data
         /// The verb.
         /// </value>
         public string Verb { get; set; }
+
+        /// <summary>
+        /// Gets or sets the language.
+        /// </summary>
+        /// <value>
+        /// The language.
+        /// </value>
+        public string Language { get; set; }
     }
 }

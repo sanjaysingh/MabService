@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 namespace MabService.Shared
 {
     /// <summary>
@@ -35,25 +36,36 @@ namespace MabService.Shared
         /// </summary>
         /// <param name="str">The string.</param>
         /// <returns>
-        ///   <c>true</c> if the specified string is alphanumeric; otherwise, <c>false</c>.
+        ///   <c>true</c> if the specified string is not alphanumeric; otherwise, <c>false</c>.
         /// </returns>
-        public static bool IsAlphanumeric (this string str)
+        public static bool IsNotAlphanumeric (this string str)
         {
-            return !str.IsNullOrWhiteSpace() && str.All(c => char.IsLetterOrDigit(c));
+            return str.Any(c => !char.IsLetterOrDigit(c));
         }
 
         /// <summary>
-        /// Determines whether [is in length] [the specified minimum].
+        /// Determines whether [is not in length] [the specified minimum].
         /// </summary>
         /// <param name="str">The string.</param>
         /// <param name="min">The minimum.</param>
         /// <param name="max">The maximum.</param>
         /// <returns>
-        ///   <c>true</c> if [is in length] [the specified minimum]; otherwise, <c>false</c>.
+        ///   <c>true</c> if [is not in length] [the specified minimum]; otherwise, <c>false</c>.
         /// </returns>
-        public static bool IsInLength(this string str,  int min, int max)
+        public static bool IsNotInLength(this string str,  int min, int max)
         {
-            return !str.IsNull() && str.Length >= min && str.Length <= max;
+            return str.Length < min || str.Length > max;
+        }
+
+        /// <summary>
+        /// To the enum.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
+        public static T ToEnum<T>(this string value)
+        {
+            return (T)Enum.Parse(typeof(T), value, true);
         }
     }
 }

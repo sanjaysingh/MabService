@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using MabService.Shared;
+using System;
 
 namespace MabService.Data
 {
@@ -23,8 +24,9 @@ namespace MabService.Data
             var mockApiEntity = new MockApiEntity(mockApi.Name, collectionName)
             {
                 RouteTemplate = mockApi.RouteTemplate,
-                Verb = mockApi.Verb,
-                Body = mockApi.Body
+                Verb = mockApi.Verb.ToString(),
+                Body = mockApi.Body,
+                Language = mockApi.Language.ToString()
             };
             table.Add(mockApiEntity);
 
@@ -64,19 +66,13 @@ namespace MabService.Data
             var mockApiModels = new List<MockApiModel>();
             foreach (MockApiEntity entity in table.Where(row => row.PartitionKey == collectionName))
             {
-                mockApiModels.Add(new MockApiModel()
-                {
-                    Name = entity.RowKey,
-                    Body = entity.Body,
-                    Verb = entity.Verb,
-                    RouteTemplate = entity.RouteTemplate
-                });
+                mockApiModels.Add(new MockApiModel(entity.RowKey, 
+                                                    entity.RouteTemplate, 
+                                                    entity.Body, 
+                                                    entity.Verb.ToEnum<MockApiHttpVerb>(), 
+                                                    entity.Verb.ToEnum<MockApiLanguage>()));
             }
-            return Task.FromResult(new MockApiCollectionModel()
-            {
-                Name = collectionName,
-                MockApis = mockApiModels
-            });
+            return Task.FromResult(new MockApiCollectionModel(collectionName, mockApiModels));
         }
     }
 }

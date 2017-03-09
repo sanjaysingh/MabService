@@ -58,8 +58,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddMockApiService.cs" />
     <Compile Include="Common\CreateCollectionRequestResource.cs" />
+    <Compile Include="Common\ErrorResponseResource.cs" />
     <Compile Include="Common\IMockApiService.cs" />
+    <Compile Include="Common\MockApiCollectionResourceModel.cs" />
+    <Compile Include="Common\MockApiResourceModel.cs" />
     <Compile Include="Common\MockApiServiceBase.cs" />
     <Compile Include="CreateCollectionService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

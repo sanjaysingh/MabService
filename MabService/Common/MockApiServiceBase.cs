@@ -52,17 +52,17 @@ namespace MabService.Common
             catch(ResourceNotFoundException ex)
             {
                 this.Logger.Error(ex.Message, ex);
-                response = req.CreateResponse(HttpStatusCode.NotFound, ex.ToErrorResponse());
+                response = req.CreateResponse(HttpStatusCode.NotFound, ErrorResponseResource.From(ex));
             }
             catch(ValidationException ex)
             {
                 this.Logger.Error(ex.Message, ex);
-                response = req.CreateResponse(HttpStatusCode.BadRequest, ex.ToErrorResponse());
+                response = req.CreateResponse(HttpStatusCode.BadRequest, ErrorResponseResource.From(ex));
             }
             catch(Exception ex)
             {
                 this.Logger.Error(ex.Message, ex);
-                response = req.CreateResponse(HttpStatusCode.InternalServerError, new ErrorResponseModel(ResourceStrings.InternalServerErrorId, ResourceStrings.InternalServerErrorMessage));
+                response = req.CreateResponse(HttpStatusCode.InternalServerError, ErrorResponseResource.From(Constants.InternalServerErrorId, Constants.InternalServerErrorMessage));
             }
 
             return response;

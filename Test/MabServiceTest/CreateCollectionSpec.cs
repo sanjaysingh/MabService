@@ -50,12 +50,12 @@ namespace MabServiceTest
         }
 
         [TestMethod]
-        public async Task CreateCollectionWith25CharsInNameShouldReturnBadRequest()
+        public async Task CreateCollectionWith35CharsInNameShouldReturnBadRequest()
         {
             var repo = new InMemoryAzureTableMockApiRepository();
             var logger = new NullLogger();
             CreateCollectionService service = new CreateCollectionService(logger, repo);
-            var response = await service.Execute(CreateRequestMessage(new { collectionName = "".PadLeft(25,'A') }, HttpMethod.Post));
+            var response = await service.Execute(CreateRequestMessage(new { collectionName = "".PadLeft(35,'A') }, HttpMethod.Post));
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }

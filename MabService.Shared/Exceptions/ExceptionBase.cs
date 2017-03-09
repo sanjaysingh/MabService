@@ -1,16 +1,11 @@
-﻿using MabService.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MabService.Shared.Exceptions
 {
     public class ExceptionBase : Exception
     {
-        private IEnumerable<string> errors = Enumerable.Empty<string>();
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ExceptionBase"/> class.
         /// </summary>
@@ -18,6 +13,7 @@ namespace MabService.Shared.Exceptions
         protected ExceptionBase(string message):base(message)
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ExceptionBase"/> class.
         /// </summary>
@@ -26,6 +22,7 @@ namespace MabService.Shared.Exceptions
         protected ExceptionBase(string message, string error):this(message, new string[] { error})
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ExceptionBase"/> class.
         /// </summary>
@@ -33,16 +30,15 @@ namespace MabService.Shared.Exceptions
         /// <param name="errors">The errors.</param>
         protected ExceptionBase(string message, IEnumerable<string> errors):base(message)
         {
-            this.errors = errors;
+            this.Errors = errors;
         }
 
         /// <summary>
-        /// To the error response.
+        /// Gets the errors.
         /// </summary>
-        /// <returns></returns>
-        public ErrorResponseModel ToErrorResponse()
-        {
-            return new ErrorResponseModel(this.GetType().Name, this.errors);
-        }
+        /// <value>
+        /// The errors.
+        /// </value>
+        public IEnumerable<string> Errors { get; } = Enumerable.Empty<string>();
     }
 }

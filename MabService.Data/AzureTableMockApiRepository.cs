@@ -38,8 +38,9 @@ namespace MabService.Data
             var mockApiEntity = new MockApiEntity(mockApi.Name, collectionName)
             {
                 RouteTemplate = mockApi.RouteTemplate,
-                Verb = mockApi.Verb,
-                Body = mockApi.Body
+                Verb = mockApi.Verb.ToString(),
+                Body = mockApi.Body,
+                Language = mockApi.Language.ToString()
             };
             var insertOperation = TableOperation.Insert(mockApiEntity);
             await table.ExecuteAsync(insertOperation);
@@ -90,19 +91,13 @@ namespace MabService.Data
             var mockApiModels = new List<MockApiModel>();
             foreach (MockApiEntity entity in table.ExecuteQuery(query))
             {
-                mockApiModels.Add(new MockApiModel()
-                {
-                    Name = entity.RowKey,
-                    Body = entity.Body,
-                    Verb = entity.Verb,
-                    RouteTemplate = entity.RouteTemplate
-                });
+                mockApiModels.Add(new MockApiModel(entity.RowKey, 
+                                                    entity.RouteTemplate,
+                                                    entity.Body,
+                                                    entity.Verb.ToEnum<MockApiHttpVerb>(),
+                                                    entity.Language.ToEnum<MockApiLanguage>()));
             }
-            return new MockApiCollectionModel()
-            {
-                Name = collectionName,
-                MockApis = mockApiModels
-            };
+            return new MockApiCollectionModel(collectionName, mockApiModels);
         }
 
         /// <summary>
