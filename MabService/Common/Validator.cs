@@ -1,6 +1,8 @@
 ﻿using MabService.Shared;
 using MabService.Shared.Exceptions;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace MabService.Common
 {
@@ -38,21 +40,22 @@ namespace MabService.Common
             }
 
             // verify verb
-            if(mockApi.Verb == MockApiHttpVerb.None)
+            if (mockApi.Verb == MockApiHttpVerb.None)
             {
                 errors.Add(Constants.InvalidApiVerbMessage);
             }
 
             // verify body
-            if(mockApi.Body.IsNullOrWhiteSpace() || 
+            if (mockApi.Body.IsNullOrWhiteSpace() ||
                 mockApi.Body.IsNotInLength(Constants.MinApiBodyLength, Constants.MaxApiBodyLength))
             {
                 errors.Add(Constants.InvalidApiBodyMessage);
             }
 
             // verify route template
-            if (mockApi.RouteTemplate.IsNullOrWhiteSpace() || 
-                mockApi.RouteTemplate.IsNotInLength(Constants.MinApiTemplateLength, Constants.MaxApiTemplateLength))
+            if (mockApi.RouteTemplate.IsNullOrWhiteSpace() ||
+                mockApi.RouteTemplate.IsNotInLength(Constants.MinApiTemplateLength, Constants.MaxApiTemplateLength) ||
+                (!Regex.IsMatch(mockApi.RouteTemplate, Constants.ApiRouteTemplateRegex)))
             {
                 errors.Add(Constants.InvalidApiTempateMessage);
             }
