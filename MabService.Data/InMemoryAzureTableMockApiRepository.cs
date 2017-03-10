@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MabService.Shared;
 using System;
+using MabService.Shared.Exceptions;
 
 namespace MabService.Data
 {
@@ -64,14 +65,25 @@ namespace MabService.Data
         public Task<MockApiCollectionModel> GetCollectionAsync(string collectionName)
         {
             var mockApiModels = new List<MockApiModel>();
-            foreach (MockApiEntity entity in table.Where(row => row.PartitionKey == collectionName))
+            var entities = table.Where(row => row.PartitionKey == collectionName);
+
+            if (!entities.Any())
             {
-                mockApiModels.Add(new MockApiModel(entity.RowKey, 
-                                                    entity.RouteTemplate, 
-                                                    entity.Body, 
-                                                    entity.Verb.ToEnum<MockApiHttpVerb>(), 
-                                                    entity.Verb.ToEnum<MockApiLanguage>()));
+                throw new CollectionNotFoundException();
             }
+
+            foreach (MockApiEntity entity in entities)
+            {
+                if (!entity.RowKey.Equals(collectionName))
+                {
+                    mockApiModels.Add(new MockApiModel(entity.RowKey,
+                                                        entity.RouteTemplate,
+                                                        entity.Body,
+                                                        entity.Verb.ToEnum<MockApiHttpVerb>(),
+                                                        entity.Language.ToEnum<MockApiLanguage>()));
+                }
+            }
+
             return Task.FromResult(new MockApiCollectionModel(collectionName, mockApiModels));
         }
     }

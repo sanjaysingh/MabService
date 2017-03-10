@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{38BA231A-1740-4155-A805-C8F54CBE92B0}"
 EndProject
@@ -22,11 +22,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AzureFunctions", "AzureFunc
 		host.json = host.json
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CreateMockApiCollection", "CreateMockApiCollection", "{92428E82-FE08-4AA4-BEDB-23AFB07C94ED}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CreateMockApiCollectionFunction", "CreateMockApiCollectionFunction", "{92428E82-FE08-4AA4-BEDB-23AFB07C94ED}"
 	ProjectSection(SolutionItems) = preProject
-		CreateMockApiCollection\function.json = CreateMockApiCollection\function.json
-		CreateMockApiCollection\project.json = CreateMockApiCollection\project.json
-		CreateMockApiCollection\run.csx = CreateMockApiCollection\run.csx
+		CreateMockApiCollectionFunction\function.json = CreateMockApiCollectionFunction\function.json
+		CreateMockApiCollectionFunction\project.json = CreateMockApiCollectionFunction\project.json
+		CreateMockApiCollectionFunction\run.csx = CreateMockApiCollectionFunction\run.csx
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AddMockApiFunction", "AddMockApiFunction", "{FDD622D0-20E2-40F8-93A3-54234E5FA884}"
+	ProjectSection(SolutionItems) = preProject
+		AddMockApiFunction\function.json = AddMockApiFunction\function.json
+		AddMockApiFunction\project.json = AddMockApiFunction\project.json
+		AddMockApiFunction\run.csx = AddMockApiFunction\run.csx
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GetMockApiCollectionFunction", "GetMockApiCollectionFunction", "{09F5C1FB-5461-4AC7-B561-A462409E1871}"
+	ProjectSection(SolutionItems) = preProject
+		GetMockApiCollectionFunction\function.json = GetMockApiCollectionFunction\function.json
+		GetMockApiCollectionFunction\project.json = GetMockApiCollectionFunction\project.json
+		GetMockApiCollectionFunction\run.csx = GetMockApiCollectionFunction\run.csx
 	EndProjectSection
 EndProject
 Global
@@ -128,5 +142,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{6615A29B-3592-4734-977B-B6A975BA5945} = {38BA231A-1740-4155-A805-C8F54CBE92B0}
 		{92428E82-FE08-4AA4-BEDB-23AFB07C94ED} = {76CF9621-D3F7-40A4-AE96-7C22B3C0DDF2}
+		{FDD622D0-20E2-40F8-93A3-54234E5FA884} = {76CF9621-D3F7-40A4-AE96-7C22B3C0DDF2}
+		{09F5C1FB-5461-4AC7-B561-A462409E1871} = {76CF9621-D3F7-40A4-AE96-7C22B3C0DDF2}
 	EndGlobalSection
 EndGlobal

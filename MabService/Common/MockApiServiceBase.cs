@@ -19,9 +19,10 @@ namespace MabService.Common
         /// Initializes a new instance of the <see cref="MockApiServiceBase"/> class.
         /// </summary>
         /// <param name="logger">The logger.</param>
-        protected MockApiServiceBase(ILogger logger)
+        protected MockApiServiceBase(ILogger logger, IMockApiRepository mockApiRepo)
         {
             this.Logger = logger;
+            this.MockApiRepo = mockApiRepo;
         }
 
         /// <summary>
@@ -30,11 +31,15 @@ namespace MabService.Common
         /// <value>
         /// The logger.
         /// </value>
-        protected ILogger Logger
-        {
-            get;
-            private set;
-        }
+        protected ILogger Logger { get; }
+
+        /// <summary>
+        /// Gets the mock API repo.
+        /// </summary>
+        /// <value>
+        /// The mock API repo.
+        /// </value>
+        protected IMockApiRepository MockApiRepo { get; }
 
         /// <summary>
         /// Executes the specified req.
@@ -49,17 +54,17 @@ namespace MabService.Common
                 this.ValidateRequest(req);
                 response = await this.ExecuteInternal(req);
             }
-            catch(ResourceNotFoundException ex)
+            catch (ResourceNotFoundException ex)
             {
                 this.Logger.Error(ex.Message, ex);
                 response = req.CreateResponse(HttpStatusCode.NotFound, ErrorResponseResource.From(ex));
             }
-            catch(ValidationException ex)
+            catch (ValidationException ex)
             {
                 this.Logger.Error(ex.Message, ex);
                 response = req.CreateResponse(HttpStatusCode.BadRequest, ErrorResponseResource.From(ex));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 this.Logger.Error(ex.Message, ex);
                 response = req.CreateResponse(HttpStatusCode.InternalServerError, ErrorResponseResource.From(Constants.InternalServerErrorId, Constants.InternalServerErrorMessage));
@@ -79,14 +84,15 @@ namespace MabService.Common
         {
             var handlerMethod = this.GetType().GetMethod("ExecuteInternal", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
 
-            var isAllowedHandler = handlerMethod.GetCustomAttributes(true).Any(attr => {
-                                        var actionMethodProvider = attr as IActionHttpMethodProvider;
-                                        if(actionMethodProvider != null)
-                                        {
-                                            return actionMethodProvider.HttpMethods.Contains(req.Method);
-                                        }
-                                        return false;
-                                    });
+            var isAllowedHandler = handlerMethod.GetCustomAttributes(true).Any(attr =>
+            {
+                var actionMethodProvider = attr as IActionHttpMethodProvider;
+                if (actionMethodProvider != null)
+                {
+                    return actionMethodProvider.HttpMethods.Contains(req.Method);
+                }
+                return false;
+            });
 
             if (!isAllowedHandler)
             {

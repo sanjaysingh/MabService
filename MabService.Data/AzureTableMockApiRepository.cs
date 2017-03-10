@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using MabService.Shared;
 using Microsoft.WindowsAzure.Storage.Table;
 using Microsoft.WindowsAzure.Storage;
+using System.Linq;
+using MabService.Shared.Exceptions;
+using System;
 
 namespace MabService.Data
 {
@@ -49,21 +52,6 @@ namespace MabService.Data
         }
 
         /// <summary>
-        /// Collections the exists.
-        /// </summary>
-        /// <param name="collectionId">The collection identifier.</param>
-        /// <returns>true if exists, false otherwise</returns>
-        public async Task<bool> CheckCollectionExistsAsync(string collectionName)
-        {
-            var table = await this.GetTableReferenceAsync();
-
-            var retrieveOperation = TableOperation.Retrieve<MockApiEntity>(collectionName, collectionName);
-            var retrievedResult = await table.ExecuteAsync(retrieveOperation);
-
-            return retrievedResult.Result != null;
-        }
-
-        /// <summary>
         /// Creates the collection.
         /// </summary>
         /// <param name="collectionName">Name of the collection.</param>
@@ -84,18 +72,26 @@ namespace MabService.Data
         public async Task<MockApiCollectionModel> GetCollectionAsync(string collectionName)
         {
             var table = await this.GetTableReferenceAsync();
-            var retrieveOperation = TableOperation.Retrieve<MockApiEntity>(collectionName, collectionName);
-            var retrievedResult = await table.ExecuteAsync(retrieveOperation);
             var query = new TableQuery<MockApiEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, collectionName));
 
             var mockApiModels = new List<MockApiModel>();
+            var entities = table.ExecuteQuery(query);
+            if (!entities.Any())
+            {
+                throw new CollectionNotFoundException();
+            }
+
             foreach (MockApiEntity entity in table.ExecuteQuery(query))
             {
-                mockApiModels.Add(new MockApiModel(entity.RowKey, 
-                                                    entity.RouteTemplate,
-                                                    entity.Body,
-                                                    entity.Verb.ToEnum<MockApiHttpVerb>(),
-                                                    entity.Language.ToEnum<MockApiLanguage>()));
+                // There will always be at least one row with collection name as the entity, ignore that and return rest
+                if (!entity.RowKey.Equals(collectionName, StringComparison.OrdinalIgnoreCase))
+                {
+                    mockApiModels.Add(new MockApiModel(entity.RowKey,
+                                                        entity.RouteTemplate,
+                                                        entity.Body,
+                                                        entity.Verb.ToEnum<MockApiHttpVerb>(),
+                                                        entity.Language.ToEnum<MockApiLanguage>()));
+                }
             }
             return new MockApiCollectionModel(collectionName, mockApiModels);
         }

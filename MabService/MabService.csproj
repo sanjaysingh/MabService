@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GetCollectionService.cs" />
     <Compile Include="AddMockApiService.cs" />
     <Compile Include="Common\CreateCollectionRequestResource.cs" />
     <Compile Include="Common\ErrorResponseResource.cs" />

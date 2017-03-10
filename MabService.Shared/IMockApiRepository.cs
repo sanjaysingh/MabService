@@ -15,13 +15,6 @@ namespace MabService.Shared
         Task<MockApiCollectionModel> GetCollectionAsync(string collectionName);
 
         /// <summary>
-        /// Collections the exists.
-        /// </summary>
-        /// <param name="collectionId">The collection identifier.</param>
-        /// <returns>true if collection exists, false otherwise</returns>
-        Task<bool> CheckCollectionExistsAsync(string collectionName);
-
-        /// <summary>
         /// Creates the collection.
         /// </summary>
         /// <param name="collectionId">The collection identifier.</param>

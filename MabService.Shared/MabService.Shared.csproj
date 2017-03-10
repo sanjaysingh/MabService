@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="ApiFunctionLanguage.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Exceptions\CollectionNotFoundException.cs" />
     <Compile Include="Exceptions\ResourceNotFoundException.cs" />
     <Compile Include="Exceptions\ExceptionBase.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />

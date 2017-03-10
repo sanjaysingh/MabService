@@ -5,7 +5,8 @@
       "authLevel": "function",
       "name": "req",
       "type": "httpTrigger",
-      "direction": "in"
+      "direction": "in",
+      "route": "collection"
     },
     {
       "name": "res",

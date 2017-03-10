@@ -15,15 +15,12 @@ namespace MabService
     /// <seealso cref="MabService.Common.IMockApiService" />
     public class CreateCollectionService : MockApiServiceBase, IMockApiService
     {
-        private readonly IMockApiRepository mockApiRepo;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateCollectionService"/> class.
         /// </summary>
         /// <param name="logger">The logger.</param>
-        public CreateCollectionService(ILogger logger, IMockApiRepository mockApiRepo) : base(logger)
+        public CreateCollectionService(ILogger logger, IMockApiRepository mockApiRepo) : base(logger, mockApiRepo)
         {
-            this.mockApiRepo = mockApiRepo;
         }
 
         /// <summary>
@@ -38,7 +35,7 @@ namespace MabService
             string collectionName = body.CollectionName;
             Validator.ValidateCollectionName(collectionName);
 
-            await this.mockApiRepo.CreateCollectionAsync(collectionName);
+            await this.MockApiRepo.CreateCollectionAsync(collectionName);
             return req.CreateResponse(HttpStatusCode.OK, Constants.CollectionCreatedMessage(collectionName));
         }
     }

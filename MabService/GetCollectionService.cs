@@ -11,14 +11,14 @@ namespace MabService
     /// Add mock api service
     /// </summary>
     /// <seealso cref="MabService.Common.MockApiServiceBase" />
-    public class AddMockApiService : MockApiServiceBase
+    public class GetCollectionService : MockApiServiceBase
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="AddMockApiService"/> class.
+        /// Initializes a new instance of the <see cref="GetCollectionService"/> class.
         /// </summary>
         /// <param name="logger">The logger.</param>
         /// <param name="mockApiRepo">The mock API repo.</param>
-        public AddMockApiService(ILogger logger, IMockApiRepository mockApiRepo) : base(logger, mockApiRepo)
+        public GetCollectionService(ILogger logger, IMockApiRepository mockApiRepo) : base(logger, mockApiRepo)
         {
         }
 
@@ -27,7 +27,7 @@ namespace MabService
         /// </summary>
         /// <param name="req">The req.</param>
         /// <returns>HttpResponseMessage</returns>
-        [HttpPost]
+        [HttpGet]
         protected override  async Task<HttpResponseMessage> ExecuteInternal(HttpRequestMessage req)
         {
             // read and validate collection name
@@ -39,13 +39,9 @@ namespace MabService
             }
             Validator.ValidateCollectionName(collectionName);
 
-            // read and validate mock api to be added
-            var mockAPI = await req.Content.ReadAsAsync<MockApiResourceModel>();
-            Validator.ValidateMockApiResource(mockAPI);
-
-            // add the mock api
-            var response = await this.MockApiRepo.AddMockApiAsync(mockAPI.ToDomainModel(), collectionName);
-            return req.CreateResponse(HttpStatusCode.OK, MockApiResourceModel.FromDomainModel(response));
+            // get and return collection
+            var response = await this.MockApiRepo.GetCollectionAsync(collectionName);
+            return req.CreateResponse(HttpStatusCode.OK, MockApiCollectionResourceModel.FromDomainModel(response));
         }
     }
 }
