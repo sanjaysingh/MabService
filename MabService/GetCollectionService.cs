@@ -37,7 +37,6 @@ namespace MabService
             {
                 collectionName = routeData.Values["collectionName"].ToString();
             }
-            Validator.ValidateCollectionName(collectionName);
 
             // get and return collection
             var response = await this.MockApiRepo.GetCollectionAsync(collectionName);

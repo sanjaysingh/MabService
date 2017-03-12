@@ -82,6 +82,7 @@
     <Compile Include="GetCollectionSpec.cs" />
     <Compile Include="CreateCollectionSpec.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RouteUtilTest.cs" />
     <Compile Include="StringExtensionTest.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -4,8 +4,6 @@ namespace MabService.Shared
 {
     public static class Constants
     {
-        public const string ApiRouteTemplateRegex = @"^[A-Za-z0-9{}/]*$";
-
         public const int MaxNameLength = 30;
 
         public const int MinApiBodyLength = 1;

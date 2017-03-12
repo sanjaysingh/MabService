@@ -5,6 +5,8 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Net;
 using System.Linq;
+using MabService.Shared.Exceptions;
+using System;
 
 namespace MabService
 {
@@ -31,14 +33,20 @@ namespace MabService
         [HttpPost]
         protected override  async Task<HttpResponseMessage> ExecuteInternal(HttpRequestMessage req)
         {
-            // read and validate collection name
-            //req.GetRouteData().Values.Values.First().ToString()
-
-            string data = string.Empty;
-            foreach (var keyValue in req.GetRouteData().Values)
+            var routeData = req.GetRouteData();
+            string collectionName = GetRouteValue(req, "collectionName");
+            if (string.IsNullOrWhiteSpace(collectionName)) throw new ResourceNotFoundException();
+            var collectionModel = await this.MockApiRepo.GetCollectionAsync(collectionName);
+            var actualRoutePath = req.RequestUri.AbsolutePath.ToLower();
+            foreach (var apiModel in collectionModel.MockApis)
             {
-                data += string.Format("Key={0}, Value={1}\n", keyValue.Key, keyValue.Value);
+                var routeMatch = RouteUtil.MatchTemplate(actualRoutePath, apiModel.RouteTemplate); 
+                if(routeMatch != null)
+                {
+                    
+                }
             }
+
             return req.CreateResponse(HttpStatusCode.OK, "");
         }
     }

@@ -80,6 +80,23 @@ namespace MabService.Common
         /// <returns></returns>
         protected abstract Task<HttpResponseMessage> ExecuteInternal(HttpRequestMessage req);
 
+        /// <summary>
+        /// Gets the route value.
+        /// </summary>
+        /// <param name="req">The req.</param>
+        /// <param name="routeKey">The route key.</param>
+        /// <returns>the value for the given route key</returns>
+        protected static string GetRouteValue(HttpRequestMessage req, string routeKey)
+        {
+            var routeData = req.GetRouteData();
+            if (routeData.Values != null && routeData.Values.ContainsKey(routeKey))
+            {
+                return routeData.Values[routeKey].ToString();
+            }
+
+            return string.Empty;
+        }
+
         private void ValidateRequest(HttpRequestMessage req)
         {
             var handlerMethod = this.GetType().GetMethod("ExecuteInternal", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);

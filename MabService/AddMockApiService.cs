@@ -37,7 +37,6 @@ namespace MabService
             {
                 collectionName = routeData.Values["collectionName"].ToString();
             }
-            Validator.ValidateCollectionName(collectionName);
 
             // read and validate mock api to be added
             var mockAPI = await req.Content.ReadAsAsync<MockApiResourceModel>();

@@ -89,13 +89,13 @@ namespace MabServiceTest
 
         [TestMethod]
         [TestCategory("Acceptance Test")]
-        public async Task GetCollectionWithInvalidCollectionNameShouldReturnBadRequest()
+        public async Task GetCollectionWithInvalidCollectionNameShouldReturnNotFound()
         {
             IMockApiRepository repo = new InMemoryAzureTableMockApiRepository();
 
             var response = await GetCollectionRawResponse(repo, "asdd#");
 
-            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
         [TestMethod]

@@ -53,9 +53,7 @@ namespace MabService.Common
             }
 
             // verify route template
-            if (mockApi.RouteTemplate.IsNullOrWhiteSpace() ||
-                mockApi.RouteTemplate.IsNotInLength(Constants.MinApiTemplateLength, Constants.MaxApiTemplateLength) ||
-                (!Regex.IsMatch(mockApi.RouteTemplate, Constants.ApiRouteTemplateRegex)))
+            if (RouteUtil.IsInvalidRouteTemplate(mockApi.RouteTemplate))
             {
                 errors.Add(Constants.InvalidApiTempateMessage);
             }
