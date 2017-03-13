@@ -29,7 +29,7 @@ namespace MabService.Common
         /// </summary>
         /// <param name="mockApi">The mock API.</param>
         /// <exception cref="ValidationException"></exception>
-        public static void ValidateMockApiResource(MockApiResourceModel mockApi)
+        public static void ValidateMockApiResource(MockApiResourceModel mockApi, ILanguageBindingFactory languageBindingFactory)
         {
             List<string> errors = new List<string>();
 
@@ -46,10 +46,14 @@ namespace MabService.Common
             }
 
             // verify body
-            if (mockApi.Body.IsNullOrWhiteSpace() ||
-                mockApi.Body.IsNotInLength(Constants.MinApiBodyLength, Constants.MaxApiBodyLength))
+            var sourceValidator = languageBindingFactory.CreateLanguageValidator(mockApi.Language);
+            try
             {
-                errors.Add(Constants.InvalidApiBodyMessage);
+                sourceValidator.Validate(mockApi.Body);
+            }
+            catch(ValidationException ex)
+            {
+                errors.AddRange(ex.Errors);
             }
 
             // verify route template
@@ -58,7 +62,7 @@ namespace MabService.Common
                 errors.Add(Constants.InvalidApiTempateMessage);
             }
 
-            if(errors.Count > 0)
+            if (errors.Count > 0)
             {
                 throw new ValidationException(errors);
             }
@@ -73,8 +77,8 @@ namespace MabService.Common
         /// </returns>
         private static bool IsNameInvalid(string name)
         {
-            return name.IsNullOrWhiteSpace() || 
-                    name.IsNotAlphanumeric() || 
+            return name.IsNullOrWhiteSpace() ||
+                    name.IsNotAlphanumeric() ||
                     name.IsNotInLength(Constants.MinNameLength, Constants.MaxNameLength);
         }
     }

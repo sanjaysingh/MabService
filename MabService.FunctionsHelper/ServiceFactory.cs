@@ -1,4 +1,5 @@
-﻿using MabService.Data;
+﻿using MabService.Common;
+using MabService.Data;
 using MabService.Shared;
 using Microsoft.Azure.WebJobs.Host;
 
@@ -44,8 +45,8 @@ namespace MabService.FunctionsHelper
         {
             var logger = new FunctionsTraceLogger(traceWriter);
             var repo = new AzureTableMockApiRepository(ServiceLocator.AppSetting.AzureStorageConnectionString, ServiceLocator.AppSetting.MockApiDefinitionTableName);
-
-            return new AddMockApiService(logger, repo);
+            var languageBindingFactory = new LanguageBindingFactory(logger);
+            return new AddMockApiService(logger, repo, languageBindingFactory);
         }
     }
 }

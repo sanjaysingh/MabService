@@ -3,10 +3,7 @@ using MabService.Shared;
 using System.Threading.Tasks;
 using System.Net.Http;
 using System.Web.Http;
-using System.Net;
-using System.Linq;
 using MabService.Shared.Exceptions;
-using System;
 
 namespace MabService
 {
@@ -16,13 +13,17 @@ namespace MabService
     /// <seealso cref="MabService.Common.MockApiServiceBase" />
     public class ExecuteMockApiService : MockApiServiceBase 
     {
+        private readonly ILanguageBindingFactory languageBindingFactory;
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExecuteMockApiService"/> class.
+        /// Initializes a new instance of the <see cref="ExecuteMockApiService" /> class.
         /// </summary>
         /// <param name="logger">The logger.</param>
         /// <param name="mockApiRepo">The mock API repo.</param>
-        public ExecuteMockApiService(ILogger logger, IMockApiRepository mockApiRepo) : base(logger, mockApiRepo)
+        /// <param name="languageBindingFactory">The language binding factory.</param>
+        public ExecuteMockApiService(ILogger logger, IMockApiRepository mockApiRepo, ILanguageBindingFactory languageBindingFactory) : base(logger, mockApiRepo)
         {
+            this.languageBindingFactory = languageBindingFactory;
         }
 
         /// <summary>
@@ -43,11 +44,14 @@ namespace MabService
                 var routeMatch = RouteUtil.MatchTemplate(actualRoutePath, apiModel.RouteTemplate); 
                 if(routeMatch != null)
                 {
-                    
+                    var languageValidator = this.languageBindingFactory.CreateLanguageValidator(apiModel.Language);
+                    languageValidator.Validate(apiModel.Body);
+                    var apiLanguageBinding = this.languageBindingFactory.CreateLanguageBinding(apiModel.Language);
+                    return apiLanguageBinding.Run(apiModel, req);
                 }
             }
 
-            return req.CreateResponse(HttpStatusCode.OK, "");
+            throw new ResourceNotFoundException();
         }
     }
 }

@@ -10,7 +10,7 @@ namespace MabService.Shared.Exceptions
         /// Initializes a new instance of the <see cref="ExceptionBase"/> class.
         /// </summary>
         /// <param name="message">The message that describes the error.</param>
-        protected ExceptionBase(string message):base(message)
+        protected ExceptionBase(string message):this(message, Enumerable.Empty<string>())
         {
         }
 
@@ -28,7 +28,17 @@ namespace MabService.Shared.Exceptions
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="errors">The errors.</param>
-        protected ExceptionBase(string message, IEnumerable<string> errors):base(message)
+        protected ExceptionBase(string message, IEnumerable<string> errors):this(message, errors, null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExceptionBase"/> class.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <param name="errors">The errors.</param>
+        /// <param name="innerException">The inner exception.</param>
+        protected ExceptionBase(string message, IEnumerable<string> errors, Exception innerException) : base(message, innerException)
         {
             this.Errors = errors;
         }

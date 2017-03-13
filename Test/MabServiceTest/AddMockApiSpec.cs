@@ -168,7 +168,8 @@ namespace MabServiceTest
         {
             var repo = new InMemoryAzureTableMockApiRepository();
             var logger = new NullLogger();
-            AddMockApiService service = new AddMockApiService(logger, repo);
+            var languageBindingFactory = new LanguageBindingFactory(logger);
+            AddMockApiService service = new AddMockApiService(logger, repo, languageBindingFactory);
 
             HttpRequestMessage requestMessage = new HttpRequestMessage(httpMethod ?? HttpMethod.Post, "http://localhost/collection/sanjaysingh");
             requestMessage.Properties.Add(HttpPropertyKeys.HttpConfigurationKey, new HttpConfiguration());

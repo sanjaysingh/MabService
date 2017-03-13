@@ -123,7 +123,8 @@ namespace MabServiceTest
         private static async Task<HttpResponseMessage> AddMockApi(IMockApiRepository repo, string collectionName, MockApiResourceModel mockApi)
         {
             var logger = new NullLogger();
-            AddMockApiService service = new AddMockApiService(logger, repo);
+            var languageBindingFactory = new LanguageBindingFactory(logger);
+            AddMockApiService service = new AddMockApiService(logger, repo, languageBindingFactory);
 
             HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Post, "http://localhost/collection/"+collectionName);
             requestMessage.Properties.Add(HttpPropertyKeys.HttpConfigurationKey, new HttpConfiguration());
