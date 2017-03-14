@@ -24,7 +24,7 @@ namespace MabService.JsLanguageBinding
             this.param = ReadRouteParams(hostRequestContext);
             if(hostRequestContext.Content != null)
             {
-                this.payload = hostRequestContext.Content.ReadAsAsync<object>().Result;
+                this.payload = hostRequestContext.Content.ReadAsAsync<dynamic>().Result;
                 this.rawpayload = hostRequestContext.Content.ReadAsAsync<string>().Result;
             }
         }

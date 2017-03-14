@@ -1,11 +1,5 @@
 ﻿using MabService.Shared;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MabService.JsLanguageBinding
 {
@@ -25,11 +19,19 @@ namespace MabService.JsLanguageBinding
         {
             this.logger = logger;
         }
+
+        /// <summary>
+        /// Runs the specified API to run.
+        /// </summary>
+        /// <param name="apiToRun">The API to run.</param>
+        /// <param name="hostRequestContext">The host request context.</param>
+        /// <returns>HttpResponseMessage</returns>
         public HttpResponseMessage Run(MockApiModel apiToRun, HttpRequestMessage hostRequestContext)
         {
             var requestContext = new JavaScriptRequestContext(hostRequestContext);
-
-            return hostRequestContext.CreateResponse(HttpStatusCode.OK);
+            var responseContext = new JavaScriptResponseContext();
+            JavaScriptRuntime.Run(apiToRun.Body, requestContext, responseContext);
+            return responseContext.CreateHostResponse(hostRequestContext);
         }
     }
 }

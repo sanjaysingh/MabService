@@ -22,6 +22,16 @@ namespace MabService.Common
         }
 
         /// <summary>
+        /// Builds the route.
+        /// </summary>
+        /// <param name="segments">The segments.</param>
+        /// <returns></returns>
+        public static string BuildRoute(IEnumerable<string> segments)
+        {
+            return string.Join(routeSeperator.ToString(), segments);
+        }
+
+        /// <summary>
         /// Determines whether [is valid route template] [the specified route template].
         /// </summary>
         /// <param name="routeTemplate">The route template.</param>

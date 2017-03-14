@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using System.Web.Http;
 using MabService.Shared.Exceptions;
+using System.Linq;
 
 namespace MabService
 {
@@ -34,24 +35,28 @@ namespace MabService
         [HttpPost]
         protected override  async Task<HttpResponseMessage> ExecuteInternal(HttpRequestMessage req)
         {
+            // get and validate collection name
             var routeData = req.GetRouteData();
             string collectionName = GetRouteValue(req, "collectionName");
             if (string.IsNullOrWhiteSpace(collectionName)) throw new ResourceNotFoundException();
+
+            // retrieve collection
             var collectionModel = await this.MockApiRepo.GetCollectionAsync(collectionName);
-            var actualRoutePath = req.RequestUri.AbsolutePath.ToLower();
-            foreach (var apiModel in collectionModel.MockApis)
+
+            // find matching api definition, throw 404 if no match is found. Skip the collectionName in the route to match the template
+            var actualRoutePath = RouteUtil.BuildRoute(RouteUtil.GetSegments(req.RequestUri.AbsolutePath).Skip(1));
+            var apiModel = collectionModel.MockApis.FirstOrDefault(model => RouteUtil.MatchTemplate(actualRoutePath, model.RouteTemplate) != null);
+            if(apiModel == null)
             {
-                var routeMatch = RouteUtil.MatchTemplate(actualRoutePath, apiModel.RouteTemplate); 
-                if(routeMatch != null)
-                {
-                    var languageValidator = this.languageBindingFactory.CreateLanguageValidator(apiModel.Language);
-                    languageValidator.Validate(apiModel.Body);
-                    var apiLanguageBinding = this.languageBindingFactory.CreateLanguageBinding(apiModel.Language);
-                    return apiLanguageBinding.Run(apiModel, req);
-                }
+                throw new ResourceNotFoundException();
             }
 
-            throw new ResourceNotFoundException();
+            // if a matching api definition is found, then validate the script
+            this.languageBindingFactory.CreateLanguageValidator(apiModel.Language).Validate(apiModel.Body);
+
+            // run the script now that all the validation has passed
+            var apiLanguageBinding = this.languageBindingFactory.CreateLanguageBinding(apiModel.Language);
+            return apiLanguageBinding.Run(apiModel, req);
         }
     }
 }

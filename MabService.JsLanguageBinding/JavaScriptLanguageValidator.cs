@@ -1,5 +1,4 @@
 ﻿using MabService.Shared;
-using Jint;
 using MabService.Shared.Exceptions;
 using System;
 
@@ -28,7 +27,7 @@ namespace MabService.JsLanguageBinding
 
             try
             {
-                new Engine().Execute(apiSource);
+                JavaScriptRuntime.Compile(apiSource);
             }
             catch(Exception ex)
             {
