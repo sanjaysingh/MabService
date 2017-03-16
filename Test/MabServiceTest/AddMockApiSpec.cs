@@ -18,6 +18,19 @@ namespace MabServiceTest
     [TestClass]
     public class AddMockApiSpec
     {
+        private InMemoryAzureTableMockApiRepository repo = new InMemoryAzureTableMockApiRepository();
+        private AddMockApiService addApiservice;
+        private const string collectionName = "MyCollection";
+
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            this.repo.CreateCollectionAsync(collectionName).Wait();
+            var logger = new NullLogger();
+            var languageBindingFactory = new LanguageBindingFactory(logger);
+            this.addApiservice = new AddMockApiService(logger, this.repo, languageBindingFactory);
+        }
+
         [TestCategory("Acceptance Test")]
         [TestMethod]
         public async Task AddMockApiWithValidDataShouldReturnOk()
@@ -25,11 +38,11 @@ namespace MabServiceTest
             var mockApi = new MockApiResourceModel()
             {
                 Name = "AddTwoNumber",
-                Body = "function(num1, num2) {return num1+num2;}",
+                Body = "function run(req, res) {return req.num1+req.num2;}",
                 RouteTemplate = "math/addition/{num1}/{num2}",
                 Verb = MockApiHttpVerb.Post
             };
-            var response = await Execute(mockApi);
+            var response = await AddApi(mockApi);
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
@@ -40,11 +53,11 @@ namespace MabServiceTest
         {
             var mockApi = new MockApiResourceModel()
             {
-                Body = "function(num1, num2) {return num1+num2;}",
+                Body = "function run(req, res) {return req.num1+req.num2;}",
                 RouteTemplate = "math/addition",
                 Verb = MockApiHttpVerb.Post
             };
-            var response = await Execute(mockApi);
+            var response = await AddApi(mockApi);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -56,11 +69,11 @@ namespace MabServiceTest
             var mockApi = new MockApiResourceModel()
             {
                 Name = "".PadLeft(Constants.MaxNameLength+1, 'A'),
-                Body = "function(num1, num2) {return num1+num2;}",
+                Body = "function run(req, res) {return req.num1+req.num2;}",
                 RouteTemplate = "math/addition",
                 Verb = MockApiHttpVerb.Post
             };
-            var response = await Execute(mockApi);
+            var response = await AddApi(mockApi);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -72,10 +85,10 @@ namespace MabServiceTest
             var mockApi = new MockApiResourceModel()
             {
                 Name = "addnumber",
-                Body = "function(num1, num2) {return num1+num2;}",
+                Body = "function run(req, res) {return req.num1+req.num2;}",
                 Verb = MockApiHttpVerb.Post
             };
-            var response = await Execute(mockApi);
+            var response = await AddApi(mockApi);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -87,11 +100,11 @@ namespace MabServiceTest
             var mockApi = new MockApiResourceModel()
             {
                 Name = "addnumber",
-                Body = "function(num1, num2) {return num1+num2;}",
+                Body = "function run(req, res) {return req.num1+req.num2;}",
                 RouteTemplate = "".PadLeft(Constants.MaxApiTemplateLength+1, 'A'),
                 Verb = MockApiHttpVerb.Post
             };
-            var response = await Execute(mockApi);
+            var response = await AddApi(mockApi);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -106,7 +119,7 @@ namespace MabServiceTest
                 RouteTemplate = "".PadLeft(20, 'A'),
                 Verb = MockApiHttpVerb.Post
             };
-            var response = await Execute(mockApi);
+            var response = await AddApi(mockApi);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -128,7 +141,7 @@ namespace MabServiceTest
                 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddaaaaaaaa;}",
                 Verb = MockApiHttpVerb.Post
             };
-            var response = await Execute(mockApi);
+            var response = await AddApi(mockApi);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -141,10 +154,10 @@ namespace MabServiceTest
             {
                 Name = "".PadLeft(25, 'A'),
                 RouteTemplate = "".PadLeft(20, 'A'),
-                Body = "function(){return \"a\";}",
+                Body = "function run(req, res) {return req.num1+req.num2;}",
                 Verb = MockApiHttpVerb.Post
             };
-            var response = await Execute(mockApi, HttpMethod.Put);
+            var response = await AddApi(mockApi, HttpMethod.Put);
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -160,26 +173,22 @@ namespace MabServiceTest
                 Body = "function(){return \"a\";}",
                 Verb = MockApiHttpVerb.Post
             };
-            var response = await Execute(mockApi, HttpMethod.Post);
+            var response = await AddApi(mockApi, HttpMethod.Post);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
-        private static async Task<HttpResponseMessage> Execute(object requestBody, HttpMethod httpMethod = null)
-        {
-            var repo = new InMemoryAzureTableMockApiRepository();
-            var logger = new NullLogger();
-            var languageBindingFactory = new LanguageBindingFactory(logger);
-            AddMockApiService service = new AddMockApiService(logger, repo, languageBindingFactory);
 
-            HttpRequestMessage requestMessage = new HttpRequestMessage(httpMethod ?? HttpMethod.Post, "http://localhost/collection/sanjaysingh");
+        private async Task<HttpResponseMessage> AddApi(object requestBody, HttpMethod httpMethod = null)
+        {
+            HttpRequestMessage requestMessage = new HttpRequestMessage(httpMethod ?? HttpMethod.Post, "http://localhost/sanjaysingh");
             requestMessage.Properties.Add(HttpPropertyKeys.HttpConfigurationKey, new HttpConfiguration());
             requestMessage.Content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
             var route = new HttpRoute("collection/{collectionName}");
-            var routeValues = new HttpRouteValueDictionary() { { "collectionName", "sanjaysingh" } };
+            var routeValues = new HttpRouteValueDictionary() { { "collectionName", collectionName } };
             var routeData = new HttpRouteData(route, routeValues);
             requestMessage.SetRouteData(routeData);
 
-            return await service.Execute(requestMessage);
+            return await addApiservice.Execute(requestMessage);
         }
     }
 }

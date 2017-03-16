@@ -36,6 +36,11 @@ namespace MabService.Data
         /// <returns>Mock API definition</returns>
         public async Task<MockApiModel> AddMockApiAsync(MockApiModel mockApi, string collectionName)
         {
+            if (await this.CheckCollectionExistsAsync(collectionName))
+            {
+                throw new CollectionNotFoundException();
+            }
+
             var table = await this.GetTableReferenceAsync();
 
             var mockApiEntity = new MockApiEntity(mockApi.Name, collectionName)
@@ -49,6 +54,18 @@ namespace MabService.Data
             await table.ExecuteAsync(insertOperation);
 
             return mockApi;
+        }
+
+        /// <summary>
+        /// Checks the collection exists asynchronous.
+        /// </summary>
+        /// <param name="collectionName">Name of the collection.</param>
+        /// <returns>true of collection exists, false otherwise</returns>
+        public async Task<bool> CheckCollectionExistsAsync(string collectionName)
+        {
+            var table = await this.GetTableReferenceAsync();
+            var retrieveOperation = TableOperation.Retrieve<MockApiEntity>(collectionName, collectionName);
+            return (await table.ExecuteAsync(retrieveOperation)) != null;
         }
 
         /// <summary>

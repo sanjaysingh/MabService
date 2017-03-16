@@ -8,7 +8,7 @@ namespace MabService.Shared
 
         public const int MinApiBodyLength = 1;
 
-        public const int MaxApiBodyLength = 200;
+        public const int MaxApiBodyLength = 2048;
 
         public const int MinNameLength = 1;
 

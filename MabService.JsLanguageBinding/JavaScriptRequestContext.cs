@@ -1,7 +1,7 @@
-﻿using MabService.Shared;
-using System.Collections.Generic;
-using System.Net;
+﻿using System.Collections.Generic;
+using System.Dynamic;
 using System.Net.Http;
+using System.Text;
 
 namespace MabService.JsLanguageBinding
 {
@@ -24,8 +24,8 @@ namespace MabService.JsLanguageBinding
             this.param = ReadRouteParams(hostRequestContext);
             if(hostRequestContext.Content != null)
             {
-                this.payload = hostRequestContext.Content.ReadAsAsync<dynamic>().Result;
-                this.rawpayload = hostRequestContext.Content.ReadAsAsync<string>().Result;
+                this.content = hostRequestContext.Content.ReadAsAsync<ExpandoObject>().Result;
+                this.rawContent = Encoding.UTF8.GetString(hostRequestContext.Content.ReadAsByteArrayAsync().Result);
             }
         }
 
@@ -59,7 +59,7 @@ namespace MabService.JsLanguageBinding
         /// <value>
         /// The payload.
         /// </value>
-        public dynamic payload { get; }
+        public dynamic content { get; }
 
         /// <summary>
         /// Gets the rawpayload.
@@ -67,7 +67,7 @@ namespace MabService.JsLanguageBinding
         /// <value>
         /// The rawpayload.
         /// </value>
-        public string rawpayload { get; }
+        public string rawContent { get; }
 
         /// <summary>
         /// Reads the headers.

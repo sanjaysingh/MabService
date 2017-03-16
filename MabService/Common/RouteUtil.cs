@@ -40,7 +40,7 @@ namespace MabService.Common
         /// </returns>
         public static bool IsInvalidRouteTemplate(string routeTemplate)
         {
-            if (routeTemplate.IsNullOrWhiteSpace()) return false;
+            if (routeTemplate.IsNullOrWhiteSpace() || routeTemplate.Length > Constants.MaxApiTemplateLength) return true;
 
             return GetSegments(routeTemplate).Any(currSegment => IsInvalidRouteSegment(currSegment));
         }

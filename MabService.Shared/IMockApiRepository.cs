@@ -8,6 +8,13 @@ namespace MabService.Shared
     public interface IMockApiRepository
     {
         /// <summary>
+        /// Checks the collection exists asynchronous.
+        /// </summary>
+        /// <param name="collectionName">Name of the collection.</param>
+        /// <returns>true if collection exists, false otherwise</returns>
+        Task<bool> CheckCollectionExistsAsync(string collectionName);
+
+        /// <summary>
         /// Gets the collection.
         /// </summary>
         /// <param name="id">The identifier.</param>
