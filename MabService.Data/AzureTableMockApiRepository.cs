@@ -65,7 +65,9 @@ namespace MabService.Data
         {
             var table = await this.GetTableReferenceAsync();
             var retrieveOperation = TableOperation.Retrieve<MockApiEntity>(collectionName, collectionName);
-            return (await table.ExecuteAsync(retrieveOperation)) != null;
+            var result =  (await table.ExecuteAsync(retrieveOperation));
+
+            return result != null && result.Result != null;
         }
 
         /// <summary>

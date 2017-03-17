@@ -108,7 +108,6 @@ namespace MabServiceTest
             var routeValues = new HttpRouteValueDictionary() { { "collectionName", collectionName } };
             var routeData = new HttpRouteData(route, routeValues);
             requestMessage.SetRouteData(routeData);
-
             return await getCollectionService.Execute(requestMessage);
         }
     }
