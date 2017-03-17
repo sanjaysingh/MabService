@@ -58,7 +58,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\CollectionReferenceResource.cs" />
     <Compile Include="Common\RouteUtil.cs" />
+    <Compile Include="GetCollectionReferenceService.cs" />
     <Compile Include="ExecuteMockApiService.cs" />
     <Compile Include="GetCollectionService.cs" />
     <Compile Include="AddMockApiService.cs" />

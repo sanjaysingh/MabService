@@ -36,7 +36,7 @@ namespace MabService
             Validator.ValidateCollectionName(collectionName);
 
             await this.MockApiRepo.CreateCollectionAsync(collectionName);
-            return req.CreateResponse(HttpStatusCode.OK, Constants.CollectionCreatedMessage(collectionName));
+            return req.CreateResponse(HttpStatusCode.OK, new CollectionReferenceResource() {Name = collectionName });
         }
     }
 }

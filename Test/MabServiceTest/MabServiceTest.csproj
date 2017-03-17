@@ -81,6 +81,7 @@
   <ItemGroup>
     <Compile Include="ExecuteMockApiSpec.cs" />
     <Compile Include="AddMockApiSpec.cs" />
+    <Compile Include="GetCollectionReferenceSpec.cs" />
     <Compile Include="GetCollectionSpec.cs" />
     <Compile Include="CreateCollectionSpec.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
