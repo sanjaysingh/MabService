@@ -45,6 +45,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GetMockApiCollectionFunctio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MabService.JsLanguageBinding", "MabService.JsLanguageBinding\MabService.JsLanguageBinding.csproj", "{4F7B12B4-9899-4050-B701-B030B2B7AA3C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GetMockApiCollectionReferenceFunction", "GetMockApiCollectionReferenceFunction", "{8934209E-54FE-4DCA-837E-CB4052AE66D9}"
+	ProjectSection(SolutionItems) = preProject
+		GetMockApiCollectionReferenceFunction\function.json = GetMockApiCollectionReferenceFunction\function.json
+		GetMockApiCollectionReferenceFunction\project.json = GetMockApiCollectionReferenceFunction\project.json
+		GetMockApiCollectionReferenceFunction\run.csx = GetMockApiCollectionReferenceFunction\run.csx
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -162,5 +169,6 @@ Global
 		{92428E82-FE08-4AA4-BEDB-23AFB07C94ED} = {76CF9621-D3F7-40A4-AE96-7C22B3C0DDF2}
 		{FDD622D0-20E2-40F8-93A3-54234E5FA884} = {76CF9621-D3F7-40A4-AE96-7C22B3C0DDF2}
 		{09F5C1FB-5461-4AC7-B561-A462409E1871} = {76CF9621-D3F7-40A4-AE96-7C22B3C0DDF2}
+		{8934209E-54FE-4DCA-837E-CB4052AE66D9} = {76CF9621-D3F7-40A4-AE96-7C22B3C0DDF2}
 	EndGlobalSection
 EndGlobal

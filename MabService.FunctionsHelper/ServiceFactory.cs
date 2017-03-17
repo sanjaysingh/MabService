@@ -37,6 +37,19 @@ namespace MabService.FunctionsHelper
         }
 
         /// <summary>
+        /// Creates the get collection reference service.
+        /// </summary>
+        /// <param name="traceWriter">The trace writer.</param>
+        /// <returns>collection reference service</returns>
+        public static GetCollectionReferenceService CreateGetCollectionReferenceService(TraceWriter traceWriter)
+        {
+            var logger = new FunctionsTraceLogger(traceWriter);
+            var repo = new AzureTableMockApiRepository(ServiceLocator.AppSetting.AzureStorageConnectionString, ServiceLocator.AppSetting.MockApiDefinitionTableName);
+
+            return new GetCollectionReferenceService(logger, repo);
+        }
+
+        /// <summary>
         /// Creates the add mock API service.
         /// </summary>
         /// <param name="traceWriter">The trace writer.</param>
