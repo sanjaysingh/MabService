@@ -38,9 +38,15 @@ namespace MabService
             {
                 collectionName = routeData.Values["collectionName"].ToString();
             }
+
+            Logger.Info($"Collection name received = {collectionName}");
             bool exists =  await this.MockApiRepo.CheckCollectionExistsAsync(collectionName);
 
+            Logger.Info($"Collection exists = {exists}");
+
             if (!exists) throw new CollectionNotFoundException();
+
+            Logger.Info($"Returning collection reference = {collectionName}");
 
             return req.CreateResponse(HttpStatusCode.OK, new CollectionReferenceResource() { Name = collectionName});
         }
