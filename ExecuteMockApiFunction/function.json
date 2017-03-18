@@ -7,7 +7,7 @@
       "type": "httpTrigger",
       "direction": "in",
       "methods": [ "get", "post", "put", "delete" ],
-      "route": "api/{*segments}"
+      "route": "api/{collectionName}/{*segments}"
     },
     {
       "name": "res",
