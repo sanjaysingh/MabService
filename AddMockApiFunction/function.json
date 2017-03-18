@@ -7,7 +7,7 @@
       "type": "httpTrigger",
       "direction": "in",
       "methods": [ "post" ],
-      "route": "intapi/collection/{collectionName}"
+      "route": "intapi/collection/{collectionName}/mockapi"
     },
     {
       "name": "res",

@@ -183,7 +183,7 @@ namespace MabServiceTest
             HttpRequestMessage requestMessage = new HttpRequestMessage(httpMethod ?? HttpMethod.Post, "http://localhost/sanjaysingh");
             requestMessage.Properties.Add(HttpPropertyKeys.HttpConfigurationKey, new HttpConfiguration());
             requestMessage.Content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
-            var route = new HttpRoute("collection/{collectionName}");
+            var route = new HttpRoute("collection/{collectionName}/mockapi");
             var routeValues = new HttpRouteValueDictionary() { { "collectionName", collectionName } };
             var routeData = new HttpRouteData(route, routeValues);
             requestMessage.SetRouteData(routeData);
