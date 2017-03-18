@@ -4,6 +4,8 @@ using System.Net;
 using MabService;
 using MabService.Shared;
 using MabService.FunctionsHelper;
+using Jint;
+using Jint.Native;
 
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
 {

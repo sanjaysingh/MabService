@@ -38,7 +38,7 @@ namespace MabServiceTest
             var mockApi = new MockApiResourceModel()
             {
                 Name = "AddTwoNumber",
-                Body = "function run(req, res) {return req.num1+req.num2;}",
+                Body = "function run(req, res) {return {sum: req.content.num1 + req.content.num2} }",
                 RouteTemplate = "math/addition/{num1}/{num2}",
                 Verb = MockApiHttpVerb.Post
             };
