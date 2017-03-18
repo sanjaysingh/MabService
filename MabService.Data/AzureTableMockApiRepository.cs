@@ -36,7 +36,7 @@ namespace MabService.Data
         /// <returns>Mock API definition</returns>
         public async Task<MockApiModel> AddMockApiAsync(MockApiModel mockApi, string collectionName)
         {
-            if (await this.CheckCollectionExistsAsync(collectionName))
+            if (!(await this.CheckCollectionExistsAsync(collectionName)))
             {
                 throw new CollectionNotFoundException();
             }
