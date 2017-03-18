@@ -10,6 +10,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, string
 {
     log.Info($"AddMockApiService is processing a request. RequestUri={req.RequestUri}");
     var service = ServiceFactory.CreateAddMockApiService(log);
+    log.Info($"Adding a mockapi to collection: {collectionName}");
     req.GetRouteData().Values.Add("collectionName", collectionName);
     return await service.Execute(req);
 }
