@@ -28,7 +28,10 @@ namespace MabService.Shared
 
         public static readonly string InvalidApiTempateMessage = $"Invalid api template. Ensure that it is less than {MaxApiTemplateLength} characters, does not contain spaces and conforms to template signature.";
 
-        public const string InvalidApiBodyMessage = "Invalid api function definition. Ensure that your api function conforms to a valid Java Script function requirement.";
+        public static Func<string,string> InvalidApiBodyMessage = (body) => $"Invalid api function definition. " +
+                        $"Ensure that your api function conforms to a valid Java Script function requirement. " +
+                        "Api body should be in the format \"function run (req, res) { <<Your code goes here>> }\"" +
+                        $"Body received = {body}";
 
         public const string InternalServerErrorMessage = "There was an unhandled error processing your request.";
 

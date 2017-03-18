@@ -22,7 +22,7 @@ namespace MabService.JsLanguageBinding
                 (!apiSource.Trim().Replace(" ", "").StartsWith("functionrun(req,res){")) ||
                 (!apiSource.EndsWith("}")))
             {
-                throw new ValidationException(Constants.InvalidApiBodyMessage);
+                throw new ValidationException(Constants.InvalidApiBodyMessage(apiSource ?? string.Empty));
             }
 
             try
@@ -31,7 +31,7 @@ namespace MabService.JsLanguageBinding
             }
             catch(Exception ex)
             {
-                throw new ValidationException(Constants.InvalidApiBodyMessage, ex);
+                throw new ValidationException(Constants.InvalidApiBodyMessage(apiSource?? string.Empty), ex);
             }
         }
     }
