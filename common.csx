@@ -3,3 +3,4 @@
 #r "..\sharedlibs\MabService.Shared.dll"
 #r "..\sharedlibs\MabService.FunctionsHelper.dll"
 #r "..\sharedlibs\Jint.dll"
+#r "..\sharedlibs\MabService.JsLanguageBinding.dll"
