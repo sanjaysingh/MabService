@@ -61,5 +61,18 @@ namespace MabService.FunctionsHelper
             var languageBindingFactory = new LanguageBindingFactory(logger);
             return new AddMockApiService(logger, repo, languageBindingFactory);
         }
+
+        /// <summary>
+        /// Creates the execute mock API service.
+        /// </summary>
+        /// <param name="traceWriter">The trace writer.</param>
+        /// <returns>ExecuteMockApiService</returns>
+        public static ExecuteMockApiService CreateExecuteMockApiService(TraceWriter traceWriter)
+        {
+            var logger = new FunctionsTraceLogger(traceWriter);
+            var repo = new AzureTableMockApiRepository(ServiceLocator.AppSetting.AzureStorageConnectionString, ServiceLocator.AppSetting.MockApiDefinitionTableName);
+            var languageBindingFactory = new LanguageBindingFactory(logger);
+            return new ExecuteMockApiService(logger, repo, languageBindingFactory);
+        }
     }
 }

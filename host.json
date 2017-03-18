@@ -1,3 +1,5 @@
 ﻿{
-	
+  "http": {
+    "routePrefix": ""
+  }
 }

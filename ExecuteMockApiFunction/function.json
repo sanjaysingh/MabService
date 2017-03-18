@@ -6,8 +6,8 @@
       "name": "req",
       "type": "httpTrigger",
       "direction": "in",
-      "methods": [ "get" ],
-      "route": "intapi/collection/{collectionName}"
+      "methods": [ "get", "post", "put", "delete" ],
+      "route": "api/{*segments}"
     },
     {
       "name": "res",

@@ -6,6 +6,7 @@
       "name": "req",
       "type": "httpTrigger",
       "direction": "in",
+      "methods": [ "post" ],
       "route": "collection"
     },
     {
