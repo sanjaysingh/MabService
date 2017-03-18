@@ -74,6 +74,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy $(TargetPath) $(SolutionDir)SharedLibs /Y</PostBuildEvent>
+    <PostBuildEvent>xcopy $(TargetPath) $(SolutionDir)SharedLibs /Y
+xcopy $(TargetDir)Jint.dll $(SolutionDir)SharedLibs /Y</PostBuildEvent>
   </PropertyGroup>
 </Project>
