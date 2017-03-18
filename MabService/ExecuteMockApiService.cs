@@ -40,11 +40,13 @@ namespace MabService
             string collectionName = GetRouteValue(req, "collectionName");
             if (string.IsNullOrWhiteSpace(collectionName)) throw new ResourceNotFoundException();
 
+            this.Logger.Info($"Executing api for collection {collectionName}");
             // retrieve collection
             var collectionModel = await this.MockApiRepo.GetCollectionAsync(collectionName);
 
             // find matching api definition, throw 404 if no match is found. Skip the collectionName in the route to match the template
-            var actualRoutePath = RouteUtil.BuildRoute(RouteUtil.GetSegments(req.RequestUri.AbsolutePath).Skip(1));
+            var absolutePath = req.RequestUri.AbsolutePath.Substring(req.RequestUri.AbsolutePath.ToLower().IndexOf(collectionName.ToLower()) + collectionName.Length);
+            var actualRoutePath = RouteUtil.BuildRoute(RouteUtil.GetSegments(absolutePath));
             var apiModel = collectionModel.MockApis.FirstOrDefault(model => RouteUtil.MatchTemplate(actualRoutePath, model.RouteTemplate) != null);
             if(apiModel == null)
             {

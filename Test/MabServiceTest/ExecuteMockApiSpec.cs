@@ -36,7 +36,7 @@ namespace MabServiceTest
         [TestMethod]
         public async Task ExecuteMockApiWithValidJsonRequestWithNumericShouldBeOk()
         {
-            string url = @"http://localhost/sanjaysingh/math/addition";
+            string url = @"http://localhost/MyCollection/math/addition";
             var name = "AddTwoNumber";
             var routeTemplate = "math/addition";
             var verb = MockApiHttpVerb.Post;
@@ -56,7 +56,7 @@ namespace MabServiceTest
         [TestMethod]
         public async Task ExecuteMockApiWithValidJsonRequestWithStringsShouldBeOk()
         {
-            string url = @"http://localhost/sanjaysingh/stringreverse";
+            string url = @"http://localhost/MyCollection/stringreverse";
             var name = "reverse";
             var routeTemplate = "stringreverse";
             var verb = MockApiHttpVerb.Post;
@@ -76,7 +76,7 @@ namespace MabServiceTest
         [TestMethod]
         public async Task ExecuteMockApiWithValidJsonRequestWithBooleanShouldBeOk()
         {
-            string url = @"http://localhost/sanjaysingh/not";
+            string url = @"http://localhost/MyCollection/not";
             var name = "reverse";
             var routeTemplate = "not";
             var verb = MockApiHttpVerb.Post;
@@ -96,7 +96,7 @@ namespace MabServiceTest
         [TestMethod]
         public async Task ExecuteMockApiWithValidNestedJsonRequestShouldBeOk()
         {
-            string url = @"http://localhost/sanjaysingh/not";
+            string url = @"http://localhost/MyCollection/not";
             var name = "reverse";
             var routeTemplate = "not";
             var verb = MockApiHttpVerb.Post;
@@ -121,7 +121,7 @@ namespace MabServiceTest
         [TestMethod]
         public async Task ExecuteNonMatchingMockApiShouldReturnNotFound()
         {
-            string url = @"http://localhost/sanjaysingh/math/invalidurl";
+            string url = @"http://localhost/MyCollection/math/invalidurl";
             var name = "AddTwoNumber";
             var routeTemplate = "math/addition";
             var verb = MockApiHttpVerb.Post;
@@ -138,7 +138,7 @@ namespace MabServiceTest
         [TestMethod]
         public async Task ExecuteNonCompilingMockApiShouldReturnBadRequest()
         {
-            string url = @"http://localhost/sanjaysingh/math/addition";
+            string url = @"http://localhost/MyCollection/math/addition";
             var name = "AddTwoNumber";
             var routeTemplate = "math/addition";
             var verb = MockApiHttpVerb.Post;
@@ -156,7 +156,7 @@ namespace MabServiceTest
         [TestMethod]
         public async Task ExecuteMockApiWithUnhandledExceptionShouldReturnInternalServerError()
         {
-            string url = @"http://localhost/sanjaysingh/math/addition";
+            string url = @"http://localhost/MyCollection/math/addition";
             var name = "AddTwoNumber";
             var routeTemplate = "math/addition";
             var verb = MockApiHttpVerb.Post;
