@@ -33,6 +33,9 @@ namespace MabService
         /// <param name="req">The req.</param>
         /// <returns>HttpResponseMessage</returns>
         [HttpPost]
+        [HttpGet]
+        [HttpPut]
+        [HttpDelete]
         protected override  async Task<HttpResponseMessage> ExecuteInternal(HttpRequestMessage req)
         {
             // get and validate collection name
