@@ -59,6 +59,11 @@ namespace MabService.Common
                 this.Logger.Error(ex.Message, ex);
                 response = req.CreateResponse(HttpStatusCode.NotFound, ErrorResponseResource.From(ex));
             }
+            catch (MethodNotAllowedException ex)
+            {
+                this.Logger.Error(ex.Message, ex);
+                response = req.CreateResponse(HttpStatusCode.MethodNotAllowed, ErrorResponseResource.From(ex));
+            }
             catch (ValidationException ex)
             {
                 this.Logger.Error(ex.Message, ex);
@@ -115,7 +120,7 @@ namespace MabService.Common
 
             if (!isAllowedHandler)
             {
-                throw new ResourceNotFoundException();
+                throw new MethodNotAllowedException();
             }
         }
     }

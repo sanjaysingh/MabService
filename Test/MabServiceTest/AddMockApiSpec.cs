@@ -148,7 +148,7 @@ namespace MabServiceTest
 
         [TestCategory("Acceptance Test")]
         [TestMethod]
-        public async Task AddMockApiWithIncorrectHttpVerbShouldReturnNotFound()
+        public async Task AddMockApiWithIncorrectHttpVerbShouldReturnMethodNotAllowed()
         {
             var mockApi = new MockApiResourceModel()
             {
@@ -159,7 +159,7 @@ namespace MabServiceTest
             };
             var response = await AddApi(mockApi, HttpMethod.Put);
 
-            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            response.StatusCode.Should().Be(HttpStatusCode.MethodNotAllowed);
         }
 
         [TestCategory("Acceptance Test")]

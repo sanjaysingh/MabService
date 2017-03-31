@@ -56,6 +56,14 @@ namespace MabServiceTest
 
         [TestMethod]
         [TestCategory("Acceptance Test")]
+        public async Task GetCollectionReferenceWithInvalidHttpMethodShouldReturnMethodNotAllowed()
+        {
+            var response = await GetCollectionRawResponse(httpMethod: HttpMethod.Put);
+            response.StatusCode.Should().Be(HttpStatusCode.MethodNotAllowed);
+        }
+
+        [TestMethod]
+        [TestCategory("Acceptance Test")]
         public async Task GetCollectionReferenceWithInvalidCollectionNameShouldReturnNotFound()
         {
             var response = await GetCollectionRawResponse("asdd#");
@@ -77,9 +85,9 @@ namespace MabServiceTest
             return await (await GetCollectionRawResponse(collectionName)).Content.ReadAsAsync<CollectionReferenceResource>();
         }
 
-        private async Task<HttpResponseMessage> GetCollectionRawResponse(string collectionName = collectionName)
+        private async Task<HttpResponseMessage> GetCollectionRawResponse(string collectionName = collectionName, HttpMethod httpMethod = null)
         {
-            HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get, "http://localhost/collectionreference/" + collectionName);
+            HttpRequestMessage requestMessage = new HttpRequestMessage(httpMethod ?? HttpMethod.Get, "http://localhost/collectionreference/" + collectionName);
             requestMessage.Properties.Add(HttpPropertyKeys.HttpConfigurationKey, new HttpConfiguration());
             var route = new HttpRoute("collectionreference/{collectionName}");
             var routeValues = new HttpRouteValueDictionary() { { "collectionName", collectionName } };

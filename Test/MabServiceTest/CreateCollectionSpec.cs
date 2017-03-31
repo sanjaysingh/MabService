@@ -35,10 +35,10 @@ namespace MabServiceTest
 
         [TestMethod]
         [TestCategory("Acceptance Test")]
-        public async Task CreateCollectionWithInvalidHttpMethodShouldReturnNotFound()
+        public async Task CreateCollectionWithInvalidHttpMethodShouldReturnMethodNotAllowed()
         {
             var response = await CreateCollection( httpMethod: HttpMethod.Put);
-            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            response.StatusCode.Should().Be(HttpStatusCode.MethodNotAllowed);
         }
 
         [TestCategory("Acceptance Test")]

@@ -40,7 +40,7 @@ namespace MabServiceTest
             var body = "function(num1, num2) { return num1+num2;}";
             var verb = MockApiHttpVerb.Get;
 
-            var mockApi = new MockApiModel(name, routeTemplate, body, verb, MockApiLanguage.JavaScript) ;
+            var mockApi = new MockApiModel(name, routeTemplate, body, verb, MockApiLanguage.JavaScript);
             await this.repo.AddMockApiAsync(mockApi, collectionName);
 
             var collection = await GetCollectionModel();
@@ -79,6 +79,14 @@ namespace MabServiceTest
 
         [TestMethod]
         [TestCategory("Acceptance Test")]
+        public async Task GetCollectionWithInvalidHttpMethodShouldReturnMethodNotAllowed()
+        {
+            var response = await GetCollectionRawResponse(httpMethod: HttpMethod.Put);
+            response.StatusCode.Should().Be(HttpStatusCode.MethodNotAllowed);
+        }
+
+        [TestMethod]
+        [TestCategory("Acceptance Test")]
         public async Task GetCollectionWithInvalidCollectionNameShouldReturnNotFound()
         {
             var response = await GetCollectionRawResponse("asdd#");
@@ -100,9 +108,9 @@ namespace MabServiceTest
             return await (await GetCollectionRawResponse(collectionName)).Content.ReadAsAsync<MockApiCollectionResourceModel>();
         }
 
-        private async Task<HttpResponseMessage> GetCollectionRawResponse(string collectionName = collectionName)
+        private async Task<HttpResponseMessage> GetCollectionRawResponse(string collectionName = collectionName, HttpMethod httpMethod = null)
         {
-            HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get, "http://localhost/collection/" + collectionName);
+            HttpRequestMessage requestMessage = new HttpRequestMessage(httpMethod ?? HttpMethod.Get, "http://localhost/collection/" + collectionName);
             requestMessage.Properties.Add(HttpPropertyKeys.HttpConfigurationKey, new HttpConfiguration());
             var route = new HttpRoute("collection/{collectionName}");
             var routeValues = new HttpRouteValueDictionary() { { "collectionName", collectionName } };

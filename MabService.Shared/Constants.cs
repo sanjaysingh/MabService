@@ -24,6 +24,8 @@ namespace MabService.Shared
 
         public const string ResourceNotFoundMessage = "The asked resource was not found. Check your route and try again.";
 
+        public const string MethodNotAllowedExceptionMessage = "The specified http method is not allowed for this resource.";
+
         public const string InvalidApiVerbMessage = "The http verb for the API is either unspecified or invalid.";
 
         public static readonly string InvalidApiTempateMessage = $"Invalid api template. Ensure that it is less than {MaxApiTemplateLength} characters, does not contain spaces and conforms to template signature.";
