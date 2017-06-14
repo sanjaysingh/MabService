@@ -22,13 +22,22 @@ namespace MabService.Data
         /// <returns>Mock API definition</returns>
         public Task<MockApiModel> AddMockApiAsync(MockApiModel mockApi, string collectionName)
         {
-            var mockApiEntity = new MockApiEntity(mockApi.Name, collectionName)
+            var collectionEntity = table.SingleOrDefault(x => x.RowKey == collectionName.ToLower() && x.PartitionKey == collectionName.ToLower());
+
+            if (collectionEntity == null)
+                throw new ResourceNotFoundException();
+
+            var mockApiEntity = new MockApiEntity(mockApi.Name, collectionEntity.Name)
             {
                 RouteTemplate = mockApi.RouteTemplate,
                 Verb = mockApi.Verb.ToString(),
                 Body = mockApi.Body,
                 Language = mockApi.Language.ToString()
             };
+
+            if (table.Any(x => x.RowKey == mockApiEntity.RowKey))
+                throw new ResourceConflictException();
+
             table.Add(mockApiEntity);
 
             return Task.FromResult(mockApi);
@@ -41,6 +50,7 @@ namespace MabService.Data
         /// <returns>true if exists, false otherwise</returns>
         public Task<bool> CheckCollectionExistsAsync(string collectionName)
         {
+            collectionName = collectionName.ToLower();
             return Task.FromResult(this.table.Exists(row => row.PartitionKey == collectionName && row.RowKey == collectionName));
         }
 
@@ -52,6 +62,8 @@ namespace MabService.Data
         public Task CreateCollectionAsync(string collectionName)
         {
             var collectionEntity = new MockApiEntity(collectionName, collectionName);
+            if (table.Any(x => x.PartitionKey == collectionEntity.PartitionKey))
+                throw new ResourceConflictException();
             table.Add(collectionEntity);
 
             return Task.FromResult(0);
@@ -64,6 +76,7 @@ namespace MabService.Data
         /// <returns>collection of mock APIs</returns>
         public Task<MockApiCollectionModel> GetCollectionAsync(string collectionName)
         {
+            collectionName = collectionName.ToLower();
             var mockApiModels = new List<MockApiModel>();
             var entities = table.Where(row => row.PartitionKey == collectionName);
 
@@ -72,19 +85,24 @@ namespace MabService.Data
                 throw new CollectionNotFoundException();
             }
 
+            var actualCollectionName = collectionName;
             foreach (MockApiEntity entity in entities)
             {
                 if (!entity.RowKey.Equals(collectionName))
                 {
-                    mockApiModels.Add(new MockApiModel(entity.RowKey,
+                    mockApiModels.Add(new MockApiModel(entity.Name,
                                                         entity.RouteTemplate,
                                                         entity.Body,
                                                         entity.Verb.ToEnum<MockApiHttpVerb>(),
                                                         entity.Language.ToEnum<MockApiLanguage>()));
                 }
+                else
+                {
+                    actualCollectionName = entity.CollectionName;
+                }
             }
 
-            return Task.FromResult(new MockApiCollectionModel(collectionName, mockApiModels));
+            return Task.FromResult(new MockApiCollectionModel(actualCollectionName, mockApiModels));
         }
     }
 }

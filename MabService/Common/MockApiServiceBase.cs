@@ -69,6 +69,11 @@ namespace MabService.Common
                 this.Logger.Error(ex.Message, ex);
                 response = req.CreateResponse(HttpStatusCode.BadRequest, ErrorResponseResource.From(ex));
             }
+            catch(ResourceConflictException ex)
+            {
+                this.Logger.Error(ex.Message, ex);
+                response = req.CreateResponse(HttpStatusCode.Conflict, ErrorResponseResource.From(ex));
+            }
             catch (Exception ex)
             {
                 this.Logger.Error(ex.Message, ex);

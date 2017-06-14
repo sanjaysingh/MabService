@@ -15,8 +15,10 @@ namespace MabService.Data
         /// <param name="collectionName">Name of the collection.</param>
         public MockApiEntity(string name, string collectionName)
         {
-            this.PartitionKey = collectionName;
-            this.RowKey = name;
+            this.PartitionKey = collectionName.ToLower();
+            this.RowKey = name.ToLower();
+            this.Name = name;
+            this.CollectionName = collectionName;
         }
 
         /// <summary>
@@ -57,5 +59,21 @@ namespace MabService.Data
         /// The language.
         /// </value>
         public string Language { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the collection.
+        /// </summary>
+        /// <value>
+        /// The name of the collection.
+        /// </value>
+        public string CollectionName { get; set; }
     }
 }

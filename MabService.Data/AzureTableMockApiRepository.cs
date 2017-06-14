@@ -36,22 +36,34 @@ namespace MabService.Data
         /// <returns>Mock API definition</returns>
         public async Task<MockApiModel> AddMockApiAsync(MockApiModel mockApi, string collectionName)
         {
-            if (!(await this.CheckCollectionExistsAsync(collectionName)))
+            var collectionEntity = await RetrieveCollectionEntity(collectionName);
+            if (collectionEntity == null)
             {
                 throw new CollectionNotFoundException();
             }
 
             var table = await this.GetTableReferenceAsync();
 
-            var mockApiEntity = new MockApiEntity(mockApi.Name, collectionName)
+            var mockApiEntity = new MockApiEntity(mockApi.Name, collectionEntity.CollectionName)
             {
                 RouteTemplate = mockApi.RouteTemplate,
                 Verb = mockApi.Verb.ToString(),
                 Body = mockApi.Body,
                 Language = mockApi.Language.ToString()
             };
-            var insertOperation = TableOperation.Insert(mockApiEntity);
-            await table.ExecuteAsync(insertOperation);
+            try
+            {
+                var insertOperation = TableOperation.Insert(mockApiEntity);
+                await table.ExecuteAsync(insertOperation);
+            }
+            catch(StorageException ex)
+            {
+                if (ex.RequestInformation.HttpStatusCode == 409)
+                {
+                    throw new ResourceConflictException();
+                }
+                throw;
+            }
 
             return mockApi;
         }
@@ -63,11 +75,7 @@ namespace MabService.Data
         /// <returns>true of collection exists, false otherwise</returns>
         public async Task<bool> CheckCollectionExistsAsync(string collectionName)
         {
-            var table = await this.GetTableReferenceAsync();
-            var retrieveOperation = TableOperation.Retrieve<MockApiEntity>(collectionName, collectionName);
-            var result =  (await table.ExecuteAsync(retrieveOperation));
-
-            return result != null && result.Result != null;
+            return await RetrieveCollectionEntity(collectionName) != null;
         }
 
         /// <summary>
@@ -77,10 +85,21 @@ namespace MabService.Data
         /// <returns>task object</returns>
         public async Task CreateCollectionAsync(string collectionName)
         {
-            var table = await this.GetTableReferenceAsync();
-            var collectionEntity = new MockApiEntity(collectionName, collectionName);
-            var insertOperation = TableOperation.Insert(collectionEntity);
-            await table.ExecuteAsync(insertOperation);
+            try
+            {
+                var table = await this.GetTableReferenceAsync();
+                var collectionEntity = new MockApiEntity(collectionName, collectionName);
+                var insertOperation = TableOperation.Insert(collectionEntity);
+                await table.ExecuteAsync(insertOperation);
+            }
+            catch(StorageException ex)
+            {
+                if(ex.RequestInformation.HttpStatusCode == 409)
+                {
+                    throw new ResourceConflictException();
+                }
+                throw;
+            }
         }
 
         /// <summary>
@@ -99,20 +118,39 @@ namespace MabService.Data
             {
                 throw new CollectionNotFoundException();
             }
-
+            var actualCollectionName = collectionName;
             foreach (MockApiEntity entity in table.ExecuteQuery(query))
             {
                 // There will always be at least one row with collection name as the entity, ignore that and return rest
                 if (!entity.RowKey.Equals(collectionName, StringComparison.OrdinalIgnoreCase))
                 {
-                    mockApiModels.Add(new MockApiModel(entity.RowKey,
+                    mockApiModels.Add(new MockApiModel(entity.Name,
                                                         entity.RouteTemplate,
                                                         entity.Body,
                                                         entity.Verb.ToEnum<MockApiHttpVerb>(),
                                                         entity.Language.ToEnum<MockApiLanguage>()));
                 }
+                else
+                {
+                    actualCollectionName = entity.CollectionName;
+                }
             }
-            return new MockApiCollectionModel(collectionName, mockApiModels);
+            return new MockApiCollectionModel(actualCollectionName, mockApiModels);
+        }
+
+        /// <summary>
+        /// Gets the collection entity.
+        /// </summary>
+        /// <param name="collectionName">Name of the collection.</param>
+        /// <returns>collection entity</returns>
+        private async Task<MockApiEntity> RetrieveCollectionEntity(string collectionName)
+        {
+            collectionName = collectionName.ToLower();
+            var table = await this.GetTableReferenceAsync();
+            var retrieveOperation = TableOperation.Retrieve<MockApiEntity>(collectionName, collectionName);
+            var result = (await table.ExecuteAsync(retrieveOperation));
+
+            return result.Result as MockApiEntity;
         }
 
         /// <summary>
