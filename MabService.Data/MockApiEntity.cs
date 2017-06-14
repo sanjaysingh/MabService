@@ -8,6 +8,9 @@ namespace MabService.Data
     /// <seealso cref="Microsoft.WindowsAzure.Storage.Table.TableEntity" />
     public class MockApiEntity : TableEntity
     {
+        private string name;
+        private string collectionName;
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="MockApiEntity"/> class.
         /// </summary>
@@ -66,7 +69,20 @@ namespace MabService.Data
         /// <value>
         /// The name.
         /// </value>
-        public string Name { get; set; }
+        public string Name 
+        { 
+            get
+            {
+                if(string.IsNullOrWhiteSpace(this.name))
+                    return this.RowKey;
+                else
+                    return this.name;
+            }
+            set
+            {
+                this.name = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the name of the collection.
@@ -74,6 +90,19 @@ namespace MabService.Data
         /// <value>
         /// The name of the collection.
         /// </value>
-        public string CollectionName { get; set; }
-    }
+        public string CollectionName 
+        {
+			get
+			{
+				if(string.IsNullOrWhiteSpace(this.collectionName))
+					return this.PartitionKey;
+				else
+					return this.collectionName;
+			}
+			set
+			{
+				this.collectionName = value;
+			}
+    	}
+	}
 }
