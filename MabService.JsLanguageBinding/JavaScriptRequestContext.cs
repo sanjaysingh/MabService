@@ -105,10 +105,8 @@ namespace MabService.JsLanguageBinding
             return new ReadOnlyDynamicObject<string>(headerDict);
         }
 
-        private static string GetClientIp(HttpRequestMessage request = null)
+        private static string GetClientIp(HttpRequestMessage request)
           {
-                request = request ?? Request;
-
                 if (request.Properties.ContainsKey("MS_HttpContext"))
                 {
                       return   ((HttpContextWrapper)request.Properties["MS_HttpContext"]).Request.UserHostAddress;
