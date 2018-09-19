@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
 using System.Net.Http;
+using System.ServiceModel.Channels;
 using System.Text;
+using System.Web;
 
 namespace MabService.JsLanguageBinding
 {
