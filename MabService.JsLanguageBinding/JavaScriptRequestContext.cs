@@ -22,6 +22,7 @@ namespace MabService.JsLanguageBinding
             this.header = ReadHeaders(hostRequestContext);
             this.query = ReadQueries(hostRequestContext);
             this.param = ReadRouteParams(hostRequestContext);
+            this.clientIp = GetClientIp(hostRequestContext);
             if(hostRequestContext.Content != null)
             {
                 this.content = hostRequestContext.Content.ReadAsAsync<ExpandoObject>().Result;
@@ -70,6 +71,14 @@ namespace MabService.JsLanguageBinding
         public string rawContent { get; }
 
         /// <summary>
+        /// Gets the client ip.
+        /// </summary>
+        /// <value>
+        /// The client ip.
+        /// </value>
+        public string clientIp { get; }
+        
+        /// <summary>
         /// Reads the headers.
         /// </summary>
         /// <param name="hostRequestContext">The host request context.</param>
@@ -96,6 +105,29 @@ namespace MabService.JsLanguageBinding
             return new ReadOnlyDynamicObject<string>(headerDict);
         }
 
+        private static string GetClientIp(HttpRequestMessage request = null)
+          {
+                request = request ?? Request;
+
+                if (request.Properties.ContainsKey("MS_HttpContext"))
+                {
+                      return   ((HttpContextWrapper)request.Properties["MS_HttpContext"]).Request.UserHostAddress;
+                }
+                else if (request.Properties.ContainsKey(RemoteEndpointMessageProperty.Name))
+                {
+                     RemoteEndpointMessageProperty prop = (RemoteEndpointMessageProperty)request.Properties[RemoteEndpointMessageProperty.Name];
+                     return prop.Address;
+                }
+                else if (HttpContext.Current != null)
+                {
+                    return HttpContext.Current.Request.UserHostAddress;
+                }
+                else
+                {
+                      return null;
+                }
+           }
+        
         /// <summary>
         /// Reads the route parameters.
         /// </summary>
