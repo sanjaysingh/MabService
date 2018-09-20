@@ -109,9 +109,17 @@ namespace MabService.JsLanguageBinding
 
         public static string GetClientIp(HttpRequestMessage request)
         {
-            var forwardedForIp = request.Properties["HTTP_X_FORWARDED_FOR"];
+            var ip = string.Empty;
+            foreach (var prop in request.Properties)
+            {
+                if (!string.IsNullOrWhiteSpace(ip))
+                {
+                    ip += ", ";
+                }
+                ip += prop.Key + "|" + prop.Value.ToString();
+            }
 
-            return string.IsNullOrWhiteSpace(forwardedForIp) ? HttpContext.Current.Request.UserHostAddress : forwardedForIp.Split(',')[0].Trim();
+            return ip;
         }
 
         /// <summary>
