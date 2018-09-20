@@ -110,16 +110,16 @@ namespace MabService.JsLanguageBinding
         public static string GetClientIp(HttpRequestMessage request)
         {
             var ip = string.Empty;
-            if (request.Properties != null)
+            if (request.Headers != null)
             {
-                foreach (var prop in request.Properties)
+                foreach (var prop in request.Headers)
                 {
                     if (!string.IsNullOrWhiteSpace(ip))
                     {
-                        ip += ", ";
+                        ip += "; ";
                     }
 
-                    ip += prop.Key + "|" + (prop.Value != null ? prop.Value.ToString() : "NULL");
+                    ip += prop.Key + " | " + (prop.Value != null ? string.Join(",", prop.Value.ToArray()) : "NULL");
                 }
             }
 
