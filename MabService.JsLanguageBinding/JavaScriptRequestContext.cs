@@ -109,20 +109,9 @@ namespace MabService.JsLanguageBinding
 
         public static string GetClientIp(HttpRequestMessage request)
         {
-            string ip = string.Empty;
-            if (request.Properties.ContainsKey("MS_HttpContext"))
-            {
-                HttpContextBase context = (HttpContextBase)request.Properties["MS_HttpContext"];
-                if (context.Request.ServerVariables["HTTP_VIA"] != null)
-                {
-                    ip = context.Request.ServerVariables["HTTP_X_FORWARDED_FOR"].ToString();
-                }
-                else
-                {
-                    ip = context.Request.ServerVariables["REMOTE_ADDR"].ToString();
-                }
-            }
-            return ip;
+            var forwardedForIp = request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+
+            return string.IsNullOrWhiteSpace(forwardedForIp) ? HttpContext.Current.Request.UserHostAddress : forwardedForIp.Split(',')[0].Trim();
         }
 
         /// <summary>
