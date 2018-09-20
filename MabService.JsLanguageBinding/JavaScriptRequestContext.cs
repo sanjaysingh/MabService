@@ -25,7 +25,7 @@ namespace MabService.JsLanguageBinding
             this.query = ReadQueries(hostRequestContext);
             this.param = ReadRouteParams(hostRequestContext);
             this.clientIp = GetClientIp(hostRequestContext);
-            if(hostRequestContext.Content != null)
+            if (hostRequestContext.Content != null)
             {
                 this.content = hostRequestContext.Content.ReadAsAsync<ExpandoObject>().Result;
                 this.rawContent = Encoding.UTF8.GetString(hostRequestContext.Content.ReadAsByteArrayAsync().Result);
@@ -79,7 +79,7 @@ namespace MabService.JsLanguageBinding
         /// The client ip.
         /// </value>
         public string clientIp { get; }
-        
+
         /// <summary>
         /// Reads the headers.
         /// </summary>
@@ -88,7 +88,7 @@ namespace MabService.JsLanguageBinding
         private static ReadOnlyDynamicObject<string> ReadHeaders(HttpRequestMessage hostRequestContext)
         {
             var headerDict = new Dictionary<string, string>();
-            foreach(var currHeader in hostRequestContext.Headers)
+            foreach (var currHeader in hostRequestContext.Headers)
             {
                 headerDict.Add(currHeader.Key, string.Join(";", currHeader.Value));
             }
@@ -107,27 +107,24 @@ namespace MabService.JsLanguageBinding
             return new ReadOnlyDynamicObject<string>(headerDict);
         }
 
-        private static string GetClientIp(HttpRequestMessage request)
-          {
-                if (request.Properties.ContainsKey("MS_HttpContext"))
+        public static string GetClientIp(HttpRequestMessage request)
+        {
+            string ip = string.Empty;
+            if (request.Properties.ContainsKey("MS_HttpContext"))
+            {
+                HttpContextBase context = (HttpContextBase)request.Properties["MS_HttpContext"];
+                if (context.Request.ServerVariables["HTTP_VIA"] != null)
                 {
-                      return   ((HttpContextWrapper)request.Properties["MS_HttpContext"]).Request.UserHostAddress;
-                }
-                else if (request.Properties.ContainsKey(RemoteEndpointMessageProperty.Name))
-                {
-                     RemoteEndpointMessageProperty prop = (RemoteEndpointMessageProperty)request.Properties[RemoteEndpointMessageProperty.Name];
-                     return prop.Address;
-                }
-                else if (HttpContext.Current != null)
-                {
-                    return HttpContext.Current.Request.UserHostAddress;
+                    ip = context.Request.ServerVariables["HTTP_X_FORWARDED_FOR"].ToString();
                 }
                 else
                 {
-                      return null;
+                    ip = context.Request.ServerVariables["REMOTE_ADDR"].ToString();
                 }
-           }
-        
+            }
+            return ip;
+        }
+
         /// <summary>
         /// Reads the route parameters.
         /// </summary>
