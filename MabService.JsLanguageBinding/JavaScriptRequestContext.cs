@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.ServiceModel.Channels;
 using System.Text;
 using System.Web;
+using System.Linq;
 
 namespace MabService.JsLanguageBinding
 {
