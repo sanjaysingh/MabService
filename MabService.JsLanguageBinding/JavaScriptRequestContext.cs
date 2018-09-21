@@ -25,7 +25,7 @@ namespace MabService.JsLanguageBinding
             this.header = ReadHeaders(hostRequestContext);
             this.query = ReadQueries(hostRequestContext);
             this.param = ReadRouteParams(hostRequestContext);
-            this.clientIp = GetClientIp(hostRequestContext);
+            
             if (hostRequestContext.Content != null)
             {
                 this.content = hostRequestContext.Content.ReadAsAsync<ExpandoObject>().Result;
@@ -106,25 +106,6 @@ namespace MabService.JsLanguageBinding
             }
 
             return new ReadOnlyDynamicObject<string>(headerDict);
-        }
-
-        public static string GetClientIp(HttpRequestMessage request)
-        {
-            var ip = string.Empty;
-            if (request.Headers != null)
-            {
-                foreach (var prop in request.Headers)
-                {
-                    if (!string.IsNullOrWhiteSpace(ip))
-                    {
-                        ip += "; ";
-                    }
-
-                    ip += prop.Key + " | " + (prop.Value != null ? string.Join(",", prop.Value.ToArray()) : "NULL");
-                }
-            }
-
-            return ip;
         }
 
         /// <summary>
